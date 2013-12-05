@@ -1,7 +1,7 @@
-{
+﻿{
     "name": "magicpill/collection",
     "description": "Implementation of Dictionary, List and HashTable in PHP",
-    "license": "BSD-3-Clause",
+    "license": "BSD-2-Clause",
     "authors": [
         {
             "name": "João Pinheiro",
@@ -27,9 +27,5 @@
     "suggest": {
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "2.2-dev",
-            "dev-develop": "2.3-dev"
-        }
     }
 }
