@@ -28,21 +28,47 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Collection
+ * @package    Core
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
 
-namespace MagicPill\Collection;
+namespace MagicPill\Core;
 
-interface DictionaryInterface extends ListInterface
+abstract class Object
 {
-    public function add($key, $value);
-    public function containsKey($key);
-    public function containsValue($value);
-    public function equals(DictionaryInterface $dictionary);
-    public function keys();
-    public function values();
-    public function remove($key);
-    public function appendFrom(DictionaryInterface $collection);
+    /**
+     * parent object
+     * @var object
+     */
+    protected $parent = null;
+
+    /**
+     * Retrieves the parent object
+     * @return object
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Defines the parent object
+     * @param object|null $parent
+     * @return \MagicPill\Resource\Resource
+     */
+    public function setParent($parent = null)
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * Retrieves the unique object identifier
+     * @return string
+     */
+    public function getObjectIdentifier()
+    {
+        return spl_object_hash($this);
+    }
 }

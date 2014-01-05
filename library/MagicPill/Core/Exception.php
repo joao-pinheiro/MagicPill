@@ -28,21 +28,14 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Collection
+ * @package    Core
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
 
-namespace MagicPill\Collection;
+namespace MagicPill\Core;
 
-interface DictionaryInterface extends ListInterface
+class CoreException extends \Exception
 {
-    public function add($key, $value);
-    public function containsKey($key);
-    public function containsValue($value);
-    public function equals(DictionaryInterface $dictionary);
-    public function keys();
-    public function values();
-    public function remove($key);
-    public function appendFrom(DictionaryInterface $collection);
+
 }

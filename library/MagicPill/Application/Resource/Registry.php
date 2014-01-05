@@ -28,21 +28,22 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Collection
+ * @package    Application
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
 
-namespace MagicPill\Collection;
+namespace MagicPill\Application\Resource;
 
-interface DictionaryInterface extends ListInterface
+class Registry extends ResourceAbstract
 {
-    public function add($key, $value);
-    public function containsKey($key);
-    public function containsValue($value);
-    public function equals(DictionaryInterface $dictionary);
-    public function keys();
-    public function values();
-    public function remove($key);
-    public function appendFrom(DictionaryInterface $collection);
+    /**
+     * Registry initialization
+     * @param \MagicPill\Core\Object $application
+     * @return \MagicPill\Collection\Dictionary
+     */
+    public function init(\MagicPill\Core\Object $application)
+    {
+        return new \MagicPill\Collection\Dictionary();
+    }
 }

@@ -28,21 +28,16 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Collection
+ * @package    Application
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
 
-namespace MagicPill\Collection;
+namespace MagicPill\Application\Resource;
 
-interface DictionaryInterface extends ListInterface
+abstract class ResourceAbstract extends \MagicPill\Core\Object implements ResourceInterface
 {
-    public function add($key, $value);
-    public function containsKey($key);
-    public function containsValue($value);
-    public function equals(DictionaryInterface $dictionary);
-    public function keys();
-    public function values();
-    public function remove($key);
-    public function appendFrom(DictionaryInterface $collection);
+    public function init(\MagicPill\Core\Object $application)
+    {
+    }
 }

@@ -28,21 +28,29 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Collection
+ * @package    Application
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
 
-namespace MagicPill\Collection;
+namespace MagicPill\Application\Resource;
 
-interface DictionaryInterface extends ListInterface
+use MagicPill\Resource\Manager;
+
+class ResourceManager extends Manager
 {
-    public function add($key, $value);
-    public function containsKey($key);
-    public function containsValue($value);
-    public function equals(DictionaryInterface $dictionary);
-    public function keys();
-    public function values();
-    public function remove($key);
-    public function appendFrom(DictionaryInterface $collection);
+    /**
+     * Initializes an application resource object
+     * @param string $className
+     * @return object
+     */
+    protected function createResourceObject($className)
+    {
+        $object = new $className();
+        $baseClass = $this->getBaseClass();
+        if ($object instanceOf $baseClass) {
+            return $object->init($this->getParent());
+        }
+        throw new MagicPill\Application\ApplicationException('Object does not implement ' . $baseClass);
+    }
 }
