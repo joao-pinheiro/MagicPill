@@ -19,13 +19,17 @@ $app = new \MagicPill\Application(array(
     'environment' => getenv('APPLICATION_ENV'),
     'configFile' => APPLICATION_PATH . '/config/application.ini',
     'resourceNamespace' => array(
-        '\Mickey\Mouse',
-        'Bitchy\Mouse'
+        '\Namespace\One',
+        '\Namespace\Two'
         ),
     'developmentEnvironment', in_array(APPLICATION_ENV, array('development', 'testing', 'staging'))
 ));
 
+//late binding of methods
 $app->runMvc();
+
+// lazy loading of dependencies
+$log = $app->getLog();
 
 $execTime = microtime(true) - START_TIME;
 echo $execTime;
