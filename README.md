@@ -11,45 +11,46 @@ At this point, probably not - It is still missing a huge amount of work.
 ### What is available?
 
 #### Core Object
-\MagicPill\Core\Object
+###### \MagicPill\Core\Object
 Implements a base class with some boilerplate funcionality
 
 #### Collections
-\MagicPill\Collection\ListCollection
+###### \MagicPill\Collection\ListCollection
   Implements a List
   
-\MagicPill\Collection\Dictionary
+###### \MagicPill\Collection\Dictionary
   Implements a dictionary
 
-\MagicPill\Collections\HashTable
+###### \MagicPill\Collections\HashTable
   Implements a HashTable
   
-\MagicPill\Collections\HashDictionary
+###### \MagicPill\Collections\HashDictionary
   Implements a HashTable that mantains key/value lists per branch (Dictionaries)
   
 #### Resource Management
-\MagicPill\Resource\Load
+###### \MagicPill\Resource\Load
 Implements loading of resource objects
-\MagicPill\Resource\Manager
+
+###### \MagicPill\Resource\Manager
 Implements registration management of resource objects
 
 #### Application
-\MagicPill\Application
+###### \MagicPill\Application
 Implements application bootstrapping with lazy loading of dependencies
 
-\MagicPill\Application\ResourceManager
+###### \MagicPill\Application\ResourceManager
 Implements the Resource Manager used by \MagicPill\Application 
 
-\MagicPill\Application\Resource\Config
+###### \MagicPill\Application\Resource\Config
 Resource class for configuration files
 
-\MagicPill\Application\Resource\Log
+###### \MagicPill\Application\Resource\Log
 Resource class for logging infrastructure
 
-\MagicPill\Application\Resource\PhpSettings
+###### \MagicPill\Application\Resource\PhpSettings
 Resource class for PHP settings override via config file
 
-\MagicPill\Application\Resource\Registry
+###### \MagicPill\Application\Resource\Registry
 Resource class for an application registry
 
 ### Examples
