@@ -72,12 +72,14 @@ class ListCollection implements ListInterface
     /**
      * Loads collection from array
      * @param array $array
+     * @return \MagicPill\Collection\ListCollection
      */
     public function fromArray(array $array)
     {
         foreach($array as $value) {
             $this->add($value);
         }
+        return $this;
     }
 
     /**
@@ -134,10 +136,12 @@ class ListCollection implements ListInterface
 
     /**
      * Makes the current collection read-only
+     * @return \MagicPill\Collection\ListCollection
      */
     public function protect()
     {
         $this->readOnly = true;
+        return $this;
     }
 
     /**
@@ -153,12 +157,14 @@ class ListCollection implements ListInterface
      * Seeks to specified offset
      *
      * @param integer $position
+     * @return \MagicPill\Collection\ListCollection
      */
     public function seek($position)
     {
         if (($position < $this->count) && ($position >= 0)) {
             $this->cursor++;
         }
+        return $this;
     }
 
     /**
@@ -176,12 +182,14 @@ class ListCollection implements ListInterface
 
     /**
      * Moves cursor to next item
+     * @return \MagicPill\Collection\ListCollection
      */
     public function next()
     {
         if ($this->cursor < $this->count) {
             $this->cursor++;
         }
+        return $this;
     }
 
     /**
@@ -207,6 +215,7 @@ class ListCollection implements ListInterface
 
     /**
      * Resets the internal pointer to the first element
+     * @return \MagicPill\Collection\ListCollection
      */
     public function rewind()
     {
@@ -215,6 +224,7 @@ class ListCollection implements ListInterface
         } else {
             $this->cursor = -1;
         }
+        return $this;
     }
 
     /**
@@ -290,10 +300,12 @@ class ListCollection implements ListInterface
      * Alias for Add - Adds an item to the end of the collection
      *
      * @param type $value
+     * @return \MagicPill\Collection\ListCollection
      */
     public function push($value)
     {
         $this->add($value);
+        return $this;
     }
 
     /**
@@ -312,7 +324,7 @@ class ListCollection implements ListInterface
 
     /**
      * Remove and return an item from the beginning of the collection
-     * @return type
+     * @return mixed|null
      */
     public function shift()
     {
@@ -347,6 +359,7 @@ class ListCollection implements ListInterface
     /**
      * Appends a list
      * @param \MagicPill\Collection\ListCollection $collection
+     * @return \MagicPill\Collection\ListCollection
      */
     public function appendFrom(ListCollection $collection)
     {
@@ -354,6 +367,7 @@ class ListCollection implements ListInterface
             $this->data[] = $item;
             $this->count++;
         }
+        return $this;
     }
 
     /**
@@ -377,15 +391,18 @@ class ListCollection implements ListInterface
     /**
      * Alias for add()
      * @param mixed $value
+     * @return \MagicPill\Collection\ListCollection
      */
     public function append($value)
     {
         $this->add($value);
+        return $this;
     }
 
     /**
      * Adds an element to the top of the list
      * @param mixed $value
+     * @return \MagicPill\Collection\ListCollection
      */
     public function prepend($value)
     {
@@ -393,5 +410,6 @@ class ListCollection implements ListInterface
             array_unshift($this->data, $value);
             $this->count++;
         }
+        return $this;
     }
 }

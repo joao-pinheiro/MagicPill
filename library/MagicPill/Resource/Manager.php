@@ -139,6 +139,7 @@ class Manager extends Load
     /**
      * Sets the resource manager options
      * @param array $options
+     * @return \MagicPill\Resource\Manager
      */
     public function setOptions($options)
     {
@@ -174,6 +175,7 @@ class Manager extends Load
                 }
             }
         }
+        return $this;
     }
 
     /**

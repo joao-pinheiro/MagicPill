@@ -41,6 +41,7 @@ class HashTable extends Dictionary
      * Adds an item to the hash table
      * @param string $key
      * @param mixed $value
+     * @return \MagicPill\Collection\HashDictionary
      */
     public function add($key, $value)
     {
@@ -52,6 +53,7 @@ class HashTable extends Dictionary
                 $this->count++;
             }
         }
+        return $this;
     }
 
     /**
@@ -93,6 +95,7 @@ class HashTable extends Dictionary
     /**
      * Append a hashtable
      * @param \MagicPill\Collection\DictionaryInterface $collection
+     * @return \MagicPill\Collection\HashDictionary
      */
     public function appendFrom(DictionaryInterface $collection)
     {
@@ -106,6 +109,7 @@ class HashTable extends Dictionary
                 }
             }
         }
+        return $this;
     }
 }
 

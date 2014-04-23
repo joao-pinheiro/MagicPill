@@ -69,6 +69,7 @@ class Dictionary implements DictionaryInterface
      * Adds an item to the dictionary
      * @param string $key
      * @param mixed $value
+     * @return \MagicPill\Collection\Dictionary
      */
     public function add($key, $value)
     {
@@ -76,22 +77,26 @@ class Dictionary implements DictionaryInterface
             $this->data[$key] = $value;
             $this->count++;
         }
+        return $this;
     }
 
     /**
      * Loads dictionary from associative array
      * @param array $array
+     * @return \MagicPill\Collection\Dictionary
      */
     public function fromArray(array $array)
     {
         foreach($array as $key => $value) {
             $this->add($key, $value);
         }
+        return $this;
     }
 
     /**
      * Clears the collection an internal counters
      * @return void
+     * @return \MagicPill\Collection\Dictionary
      */
     public function clear()
     {
@@ -99,6 +104,7 @@ class Dictionary implements DictionaryInterface
         $this->count = 0;
         $this->readOnly = false;
         reset($this->data);
+        return $this;
     }
 
     /**
@@ -121,10 +127,12 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Makes the current collection read-only
+     * @return \MagicPill\Collection\Dictionary
      */
     public function protect()
     {
         $this->readOnly = true;
+        return $this;
     }
 
     /**
@@ -151,10 +159,12 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Moves cursor to next item
+     * @return \MagicPill\Collection\Dictionary
      */
     public function next()
     {
         next($this->data);
+        return $this;
     }
 
     /**
@@ -172,6 +182,7 @@ class Dictionary implements DictionaryInterface
     /**
      * Seeks internal pointer to a given position
      * @param string $position
+     * @return \MagicPill\Collection\Dictionary
      */
     public function seek($position)
     {
@@ -179,6 +190,7 @@ class Dictionary implements DictionaryInterface
         while((key($this->data) !== $position)) {
             next($this->data);
         }
+        return $this;
     }
 
     /**
@@ -193,10 +205,12 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Resets the internal pointer to the first element
+     * @return \MagicPill\Collection\Dictionary
      */
     public function rewind()
     {
         reset($this->data);
+        return $this;
     }
 
     /**
@@ -329,6 +343,7 @@ class Dictionary implements DictionaryInterface
     /**
      * Removes an item from the dictionary
      * @param string $key
+     * @return \MagicPill\Collection\Dictionary
      */
     public function remove($key)
     {
@@ -336,12 +351,14 @@ class Dictionary implements DictionaryInterface
             unset($this->data[$key]);
             $this->count--;
         }
+        return $this;
     }
 
     /**
      * Append a dictionary
      * Only non-existing keys are added
      * @param \MagicPill\Collection\DictionaryInterface $collection
+     * @return \MagicPill\Collection\Dictionary
      */
     public function appendFrom(DictionaryInterface $collection)
     {
@@ -353,6 +370,7 @@ class Dictionary implements DictionaryInterface
                 }
             }
         }
+        return $this;
     }
 
     /**
@@ -362,5 +380,37 @@ class Dictionary implements DictionaryInterface
     public function toArray()
     {
         return $this->data;
+    }
+    
+    /**
+     * Magic setter
+     * @param string $name
+     * @param mixed $value
+     * @return mixed
+     */
+    public function __set($name , $value)
+    {
+        $this->offsetSet($name, $value);
+        return $this;
+    }
+
+    /**
+     * Magic getter
+     * @param string $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->offsetGet($name);
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return $this->offsetExists($name);
     }
 }
