@@ -28,14 +28,22 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Application
+ * @package    Collection
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
 
-namespace MagicPill\Application;
+namespace MagicPill\Collection;
 
-class ApplicationException extends \MagicPill\Core\CoreException
+class TypedObjectCollection extends ObjectCollection
 {
-
+    /**
+     * Constructor
+     * @param string $objectType
+     * @param array $data
+     */
+    public function __construct($objectType, $data = array())
+    {
+        parent::__construct($data, $objectType);
+    }
 }

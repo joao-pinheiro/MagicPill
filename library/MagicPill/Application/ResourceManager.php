@@ -36,6 +36,7 @@
 namespace MagicPill\Application\Resource;
 
 use MagicPill\Resource\Manager;
+use MagicPill\Exception\ExceptionFactory;
 
 class ResourceManager extends Manager
 {
@@ -51,6 +52,6 @@ class ResourceManager extends Manager
         if ($object instanceOf $baseClass) {
             return $object->init($this->getParent());
         }
-        throw new MagicPill\Application\ApplicationException('Object does not implement ' . $baseClass);
+        throw \ExceptionFactory::ResourceManagerException('Object does not implement ' . $baseClass);
     }
 }

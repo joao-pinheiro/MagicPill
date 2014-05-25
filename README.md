@@ -10,23 +10,33 @@ At this point, probably not - It is still missing a huge amount of work.
 
 ### What is available?
 
-#### Core Object
+#### Core Objects
 ###### \MagicPill\Core\Object
 Implements a base class with some boilerplate funcionality
 
+###### \MagicPill\Core\Object
+Implements a base class with some boilerplate funcionality
+
+
 #### Collections
-###### \MagicPill\Collection\ListCollection
-  Implements a List
-  
+###### \MagicPill\Collection\Collection
+  Implements a Collection (List)
+
 ###### \MagicPill\Collection\Dictionary
   Implements a dictionary
 
 ###### \MagicPill\Collections\HashTable
   Implements a HashTable
-  
+
 ###### \MagicPill\Collections\HashDictionary
   Implements a HashTable that mantains key/value lists per branch (Dictionaries)
-  
+
+###### \MagicPill\Collections\ObjectCollection
+  Implements a Object Collection
+
+###### \MagicPill\Collections\TypedObjectCollection
+  Implements a Object Collection with Type Checking
+
 #### Resource Management
 ###### \MagicPill\Resource\Load
 Implements loading of resource objects
@@ -39,7 +49,7 @@ Implements registration management of resource objects
 Implements application bootstrapping with lazy loading of dependencies
 
 ###### \MagicPill\Application\ResourceManager
-Implements the Resource Manager used by \MagicPill\Application 
+Implements the Resource Manager used by \MagicPill\Application
 
 ###### \MagicPill\Application\Resource\Config
 Resource class for configuration files

@@ -49,7 +49,7 @@ class HashTable extends Dictionary
             if (key_exists($key, $this->data)) {
                 $this->data[$key]->add($value);
             } else {
-                $this->data[$key] = new ListCollection(array($value));
+                $this->data[$key] = new Collection(array($value));
                 $this->count++;
             }
         }

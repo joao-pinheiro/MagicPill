@@ -28,14 +28,14 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Resource
+ * @package    Core
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
 
-namespace MagicPill\Resource;
+namespace MagicPill\Exception;
 
-class ManagerException extends \MagicPill\Core\CoreException
+class CoreException extends \Exception
 {
 
 }

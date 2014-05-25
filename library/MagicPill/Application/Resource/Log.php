@@ -35,12 +35,15 @@
 
 namespace MagicPill\Application\Resource;
 
+use MagicPill\Exception\ExceptionFactory;
+
 class Log extends ResourceAbstract
 {
     /**
      * Config file initialization
      * @param \MagicPill\Core\Object $application
      * @return \MagicPill\Collection\Dictionary
+     * @throws ResourceLogException
      */
     public function init(\MagicPill\Core\Object $application)
     {
@@ -49,7 +52,7 @@ class Log extends ResourceAbstract
         if ($config->log) {
             $result = \Zend_Log::factory($config->log);
         } else {
-            throw new ResourceException('Log configuration not found');
+            throw ExceptionFactory::ResourceLogException('Log configuration not found');
         }
         return $result;
     }

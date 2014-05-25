@@ -36,7 +36,7 @@
 namespace MagicPill;
 
 use MagicPill\Application\Resource\ResourceManager;
-use MagicPill\Application\ApplicationException;
+use MagicPill\Exception\ExceptionFactory;
 
 class Application extends \MagicPill\Core\Object
 {
@@ -165,6 +165,7 @@ class Application extends \MagicPill\Core\Object
      * Adds resource namepsaces
      * @param string|array $namespace
      * @return \MagicPill\Application
+     * @throws ApplicationResourceException
      */
     public function addResourceNamespace($namespace)
     {
@@ -175,7 +176,7 @@ class Application extends \MagicPill\Core\Object
         } elseif (is_string($namespace)) {
             static::$resourceManager->addNamespace($namespace);
         } else {
-            throw new ApplicationException('Invalid resourceNamespace format');
+            throw ExceptionFactory::build('ApplicationResourceException', 'Invalid resourceNamespace format');
         }
 
         return $this;
@@ -214,7 +215,7 @@ class Application extends \MagicPill\Core\Object
      * If run<Name> syntax is used, the resource executed without being stored
      * @param string $name
      * @return mixed
-     * @throws ApplicationException
+     * @throws ApplicationInvalidMethodException
      */
     protected static function getResourceByMethod($name)
     {
@@ -225,6 +226,6 @@ class Application extends \MagicPill\Core\Object
             $name = substr($name, 3);
             return static::$resourceManager->loadResource($name);
         }
-        throw new ApplicationException('Invalid method ' . $name);
+        throw ExceptionFactory::build('ApplicationInvalidMethodException', 'Invalid method ' . $name);
     }
 }

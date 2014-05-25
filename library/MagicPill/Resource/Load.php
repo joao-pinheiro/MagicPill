@@ -36,6 +36,7 @@
 namespace MagicPill\Resource;
 
 use MagicPill\Collection;
+use MagicPill\Exception\ExceptionFactory;
 
 class Load extends \MagicPill\Core\Object
 {
@@ -170,7 +171,7 @@ class Load extends \MagicPill\Core\Object
 
         if (empty($className)) {
             if ($this->raiseException) {
-                throw new ManagerException('Could not locate resource with name ' . $name);
+                throw ExceptionFactory::ResourceManagerException('Could not locate resource with name ' . $name);
             }
             return;
         }
@@ -179,7 +180,7 @@ class Load extends \MagicPill\Core\Object
         if ($this->baseClassCheck) {
             if (!($result instanceof $this->baseClass)) {
                 if ($this->raiseException) {
-                    throw new ManagerException(get_class($result) . ' does not extend/implement ' . $this->baseClass);
+                    throw ExceptionFactory::ResourceManagerException(get_class($result) . ' does not extend/implement ' . $this->baseClass);
                 }
                 return null;
             }

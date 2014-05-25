@@ -35,6 +35,8 @@
 
 namespace MagicPill\Application\Resource;
 
+use MagicPill\Exception\ExceptionFactory;
+
 class Config extends ResourceAbstract
 {
     /**
@@ -46,14 +48,14 @@ class Config extends ResourceAbstract
      * Config file initialization
      * @param \MagicPill\Core\Object $application
      * @return \MagicPill\Collection\Dictionary
+     * @throws ResourceConfigException
      */
     public function init(\MagicPill\Core\Object $application)
     {
         $this->setParent($application);
         $options = $application->getApplicationOptions();
         if (!isset($options['configFile'])) {
-            throw new ResourceException('Config file path is not set');
-            return null;
+            throw ExceptionFactory::ResourceConfigException('Config file path is not set');
         }
 
         $developmentEnvironment = $application->isDevelopmentEnvironment();
@@ -129,7 +131,7 @@ class Config extends ResourceAbstract
     {
         $filename = realpath($filename);
         if (!file_exists($filename)) {
-            throw new ResourceException('Config file ' . $filename . ' not found');
+            throw ExceptionFactory::ResourceConfigException('Config file ' . $filename . ' not found');
         }
         return new \Zend_Config_Ini($filename, $environment);
     }

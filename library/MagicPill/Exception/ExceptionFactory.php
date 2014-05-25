@@ -28,14 +28,48 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Application
+ * @package    Core
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
 
-namespace MagicPill\Application\Resource;
+namespace MagicPill\Exception;
 
-class ResourceException extends \MagicPill\Core\CoreException
+class ExceptionFactory extends \MagicPill\Core\Object
 {
+    /**
+     * @var string
+     */
+    protected static $token = '{CLASSNAME}';
 
+    /**
+     * @var string
+     */
+    protected static $evalPayload = 'class {CLASSNAME} extends \MagicPill\Exception\CoreException {}';
+
+    /**
+     * Builds a new Exception
+     * @param string $className
+     * @param string $message
+     * @param integer $code
+     * @param \Exception $previous
+     * @param mixed $parameters
+     * @return \MagicPill\Exception\CoreException
+     */
+    public static function build($className, $message, $code = null, $previous = null, $parameters = null)
+    {
+        eval(str_replace(self::$token, $className, self::$evalPayload));
+        return new $className($message, $code, $previous);
+    }
+
+    /**
+     * Allows invoking syntax as ExceptionFactory::ExceptionName('Message')
+     * @param string $name
+     * @param string $arguments
+     * @return \MagicPill\Exception\CoreException
+     */
+    public static function __callStatic($name, $arguments)
+    {
+        return self::build($name, array_shift($arguments), array_shift($arguments), array_shift($arguments));
+    }
 }

@@ -35,7 +35,7 @@
 
 namespace MagicPill\Collection;
 
-class ListCollection implements ListInterface
+class Collection implements ListInterface
 {
     /**
      * @var integer
@@ -72,7 +72,7 @@ class ListCollection implements ListInterface
     /**
      * Loads collection from array
      * @param array $array
-     * @return \MagicPill\Collection\ListCollection
+     * @return \MagicPill\Collection\Collection
      */
     public function fromArray(array $array)
     {
@@ -96,13 +96,14 @@ class ListCollection implements ListInterface
 
     /**
      * Clears the collection an internal counters
-     * @return void
+     * @return \MagicPill\Collection\Collection
      */
     public function clear()
     {
         $this->data = array();
         $this->count = 0;
         $this->readOnly = false;
+        return $this;
     }
 
     /**
@@ -136,7 +137,7 @@ class ListCollection implements ListInterface
 
     /**
      * Makes the current collection read-only
-     * @return \MagicPill\Collection\ListCollection
+     * @return \MagicPill\Collection\Collection
      */
     public function protect()
     {
@@ -157,7 +158,7 @@ class ListCollection implements ListInterface
      * Seeks to specified offset
      *
      * @param integer $position
-     * @return \MagicPill\Collection\ListCollection
+     * @return \MagicPill\Collection\Collection
      */
     public function seek($position)
     {
@@ -182,7 +183,7 @@ class ListCollection implements ListInterface
 
     /**
      * Moves cursor to next item
-     * @return \MagicPill\Collection\ListCollection
+     * @return \MagicPill\Collection\Collection
      */
     public function next()
     {
@@ -215,7 +216,7 @@ class ListCollection implements ListInterface
 
     /**
      * Resets the internal pointer to the first element
-     * @return \MagicPill\Collection\ListCollection
+     * @return \MagicPill\Collection\Collection
      */
     public function rewind()
     {
@@ -300,7 +301,7 @@ class ListCollection implements ListInterface
      * Alias for Add - Adds an item to the end of the collection
      *
      * @param type $value
-     * @return \MagicPill\Collection\ListCollection
+     * @return \MagicPill\Collection\Collection
      */
     public function push($value)
     {
@@ -338,6 +339,7 @@ class ListCollection implements ListInterface
     /**
      * Add an element to the beginning of the collection
      * @param mixed $value
+     * @return \MagicPill\Collection\Collection
      */
     public function unshift($value)
     {
@@ -345,6 +347,7 @@ class ListCollection implements ListInterface
             $this->count++;
             array_unshift($this->data, $value);
         }
+        return $this;
     }
 
     /**
@@ -358,10 +361,10 @@ class ListCollection implements ListInterface
 
     /**
      * Appends a list
-     * @param \MagicPill\Collection\ListCollection $collection
-     * @return \MagicPill\Collection\ListCollection
+     * @param \MagicPill\Collection\Collection $collection
+     * @return \MagicPill\Collection\Collection
      */
-    public function appendFrom(ListCollection $collection)
+    public function appendFrom(Collection $collection)
     {
         foreach ($collection as $item) {
             $this->data[] = $item;
@@ -372,10 +375,10 @@ class ListCollection implements ListInterface
 
     /**
      * Compares 2 lists
-     * @param \MagicPill\Collection\ListCollection $list
+     * @param \MagicPill\Collection\Collection $list
      * @return bool
      */
-    public function equals(ListCollection $list)
+    public function equals(Collection $list)
     {
         if ($this->count === $list->count()) {
             foreach($list as $value) {
@@ -391,7 +394,7 @@ class ListCollection implements ListInterface
     /**
      * Alias for add()
      * @param mixed $value
-     * @return \MagicPill\Collection\ListCollection
+     * @return \MagicPill\Collection\Collection
      */
     public function append($value)
     {
@@ -402,7 +405,7 @@ class ListCollection implements ListInterface
     /**
      * Adds an element to the top of the list
      * @param mixed $value
-     * @return \MagicPill\Collection\ListCollection
+     * @return \MagicPill\Collection\Collection
      */
     public function prepend($value)
     {
