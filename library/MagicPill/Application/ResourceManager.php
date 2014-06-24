@@ -52,6 +52,6 @@ class ResourceManager extends Manager
         if ($object instanceOf $baseClass) {
             return $object->init($this->getParent());
         }
-        throw \ExceptionFactory::ResourceManagerException('Object does not implement ' . $baseClass);
+        ExceptionFactory::ResourceManagerException('Object does not implement ' . $baseClass);
     }
 }

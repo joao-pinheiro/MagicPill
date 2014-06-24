@@ -116,7 +116,7 @@ class EntityContainer extends Dictionary
         foreach($array as $propery => $value) {
             if (!array_key_exists($property, $this->properties)) {
                 if (!$ignoreUnknownProperties) {
-                    throw ExceptionFactory::EntityContainerException($this, 'Unknown property ' . $property);
+                    ExceptionFactory::EntityContainerException($this, 'Unknown property ' . $property);
                 }
             } else {
                 $this->$property = $value;

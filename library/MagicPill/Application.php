@@ -176,7 +176,7 @@ class Application extends \MagicPill\Core\Object
         } elseif (is_string($namespace)) {
             static::$resourceManager->addNamespace($namespace);
         } else {
-            throw ExceptionFactory::build('ApplicationResourceException', 'Invalid resourceNamespace format');
+            ExceptionFactory::ApplicationResourceException('Invalid resourceNamespace format');
         }
 
         return $this;
@@ -226,6 +226,6 @@ class Application extends \MagicPill\Core\Object
             $name = substr($name, 3);
             return static::$resourceManager->loadResource($name);
         }
-        throw ExceptionFactory::build('ApplicationInvalidMethodException', 'Invalid method ' . $name);
+        ExceptionFactory::ApplicationInvalidMethodException($name);
     }
 }

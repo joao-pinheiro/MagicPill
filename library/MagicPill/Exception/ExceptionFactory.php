@@ -28,7 +28,7 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Core
+ * @package    Exception
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
@@ -59,7 +59,7 @@ class ExceptionFactory extends \MagicPill\Core\Object
     public static function build($className, $message, $code = null, $previous = null, $parameters = null)
     {
         eval(str_replace(self::$token, $className, self::$evalPayload));
-        return new $className($message, $code, $previous);
+        throw new $className($message, $code, $previous);
     }
 
     /**

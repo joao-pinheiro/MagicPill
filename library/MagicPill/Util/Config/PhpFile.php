@@ -28,7 +28,7 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Resource
+ * @package    Config
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */

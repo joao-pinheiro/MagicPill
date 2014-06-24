@@ -52,7 +52,7 @@ class Log extends ResourceAbstract
         if ($config->log) {
             $result = \Zend_Log::factory($config->log);
         } else {
-            throw ExceptionFactory::ResourceLogException('Log configuration not found');
+            ExceptionFactory::ResourceLogException('Log configuration not found');
         }
         return $result;
     }

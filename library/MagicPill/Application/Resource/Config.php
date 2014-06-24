@@ -35,6 +35,7 @@
 
 namespace MagicPill\Application\Resource;
 
+use MagicPill\Util\Config\IniFile;
 use MagicPill\Exception\ExceptionFactory;
 
 class Config extends ResourceAbstract
@@ -55,7 +56,7 @@ class Config extends ResourceAbstract
         $this->setParent($application);
         $options = $application->getApplicationOptions();
         if (!isset($options['configFile'])) {
-            throw ExceptionFactory::ResourceConfigException('Config file path is not set');
+            ExceptionFactory::ResourceConfigException('Config file path is not set');
         }
 
         $developmentEnvironment = $application->isDevelopmentEnvironment();
@@ -76,7 +77,7 @@ class Config extends ResourceAbstract
 
     /**
      * Retrieves configuration from cache
-     * @return Zend_Config
+     * @return \MagicPill\Util\Config\Container
      */
     protected function readFromCache()
     {
@@ -122,17 +123,17 @@ class Config extends ResourceAbstract
     }
 
     /**
-     * Reads a config file into a Zend_Config Object
+     * Reads a config file into a \MagicPill\Util\Config\Container Object
      * @param string $filename
      * @param string $environment
-     * @return \Zend_Config_Ini
+     * @return \MagicPill\Util\Config\Container
      */
     protected function readConfigFile($filename, $environment)
     {
         $filename = realpath($filename);
         if (!file_exists($filename)) {
-            throw ExceptionFactory::ResourceConfigException('Config file ' . $filename . ' not found');
+            ExceptionFactory::ResourceConfigException('Config file ' . $filename . ' not found');
         }
-        return new \Zend_Config_Ini($filename, $environment);
+        return new IniFile($filename, $environment);
     }
 }

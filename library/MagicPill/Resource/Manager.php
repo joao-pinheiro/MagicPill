@@ -36,6 +36,7 @@
 namespace MagicPill\Resource;
 
 use MagicPill\Collection;
+use MagicPill\Exception\ExceptionFactory;
 
 class Manager extends Load
 {
@@ -171,7 +172,7 @@ class Manager extends Load
                         break;
 
                     default:
-                        throw  new ManagerException('Option ' . $option . ' is invalid');
+                        ExceptionFactory::ManagerInvalidOptionException($option);
                 }
             }
         }

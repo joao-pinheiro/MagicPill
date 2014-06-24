@@ -381,7 +381,7 @@ class Dictionary implements DictionaryInterface
     {
         return $this->data;
     }
-    
+
     /**
      * Magic setter
      * @param string $name
@@ -405,7 +405,7 @@ class Dictionary implements DictionaryInterface
     }
 
     /**
-     * 
+     *
      * @param string $name
      * @return bool
      */
