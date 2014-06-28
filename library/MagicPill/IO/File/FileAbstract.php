@@ -35,10 +35,10 @@
 
 namespace MagicPill\IO\File;
 
-abstract class FileAbstract extends MagicPill\Core\Object
+use MagicPill\Core\Object;
+abstract class FileAbstract extends Object
 {
     /**
-     *
      * @var resource
      */
     protected $fileHandle = null;
@@ -48,6 +48,11 @@ abstract class FileAbstract extends MagicPill\Core\Object
      */
     protected $fileName = '';
 
+    /**
+     * @var array 
+     */
+    protected $validModes = array();
+    
     /**
      * Defines file name
      * @param string $fileName
@@ -165,4 +170,14 @@ abstract class FileAbstract extends MagicPill\Core\Object
         }
         return filesize($fileName);
     }
+    
+    /**
+     * Checks if given mode is valid
+     * @param string $mode
+     * @return boolean
+     */
+    protected function isValidMode($mode)
+    {
+        return in_array($mode, $this->validModes);
+    }    
 }

@@ -40,11 +40,54 @@ use MagicPill\Exception\ExceptionFactory;
 class FileWriter extends FileAbstract
 {
     /**
+     * @var array 
+     */
+    protected $validModes = array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+');
+    
+    /**
      * Constructor
      * @param string $fileName
      */
     public function __construct($fileName)
     {
         $this->setName($fileName);
+    }
+    
+    /**
+     * Opens a file for writing
+     * @param string $mode
+     * @return \MagicPill\IO\File\FileReader
+     * @throws FileInvalidModeException
+     * @throws FileOpenedException
+     */
+    public function open($mode = 'w')
+    {
+        if (!$this->isValidMode($mode)) {
+            ExceptionFactory::FileInvalidModeException('Invalid mode ' . $mode . ' specified');
+        }
+        
+        if (!$this->isOpened()) {
+            $this->setHandle(fopen($this->getName(), $mode));
+        } else {
+            ExceptionFactory::FileOpenedException('File is already opened');
+        }
+        return $this;
+    }    
+    
+    /**
+     * Write to File
+     * @param string|mixed $content
+     * @param integer|null $length
+     * @return integer
+     */
+    public function write($content, $length = null)
+    {
+        if (!$this->isOpened()) {
+            ExceptionFactory::FileNotOpenedException('File is not opened');
+        }
+        if ((null === $length) || (is_int($length))) {
+            return fwrite($this->getHandle(), $content);
+        }
+        return fwrite($this->getHandle(), $content, $length);
     }
 }

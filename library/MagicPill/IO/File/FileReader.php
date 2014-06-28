@@ -40,6 +40,11 @@ use MagicPill\Exception\ExceptionFactory;
 class FileReader extends FileAbstract
 {
     /**
+     * @var array 
+     */
+    protected $validModes = array('r', 'r+', 'w+',  'a+', 'x+', 'c', 'c+');
+    
+    /**
      * Constructor
      * @param string $fileName
      */
@@ -52,11 +57,16 @@ class FileReader extends FileAbstract
      * Opens a file for reading
      * @param string $mode
      * @return \MagicPill\IO\File\FileReader
+     * @throws FileInvalidModeException
      * @throws FileNotFoundException
      * @throws FileOpenedException
      */
     public function open($mode = 'r')
     {
+        if (!$this->isValidMode($mode)) {
+            ExceptionFactory::FileInvalidModeException('Invalid mode ' . $mode . ' specified');
+        }
+        
         if (!$this->isOpened()) {
             if ($this->exists()) {
                 $this->setHandle(fopen($this->getName(), $mode));
