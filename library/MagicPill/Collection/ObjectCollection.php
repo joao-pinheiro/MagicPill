@@ -81,7 +81,7 @@ class ObjectCollection extends Collection
     public function isValidType($value)
     {
         $type = $this->getObjectType();
-        return ($type !== null) && ($value instanceof $type);
+        return ($type !== null) ? ($value instanceof $type) : true;
     }
 
     /**
@@ -106,10 +106,10 @@ class ObjectCollection extends Collection
 
     /**
      * Appends a collection
-     * @param \MagicPill\Collection\ObjectCollection $collection
+     * @param \MagicPill\Collection\Collection $collection
      * @return \MagicPill\Collection\ObjectCollection
      */
-    public function appendFrom(ObjectCollection $collection)
+    public function appendFrom(Collection $collection)
     {
         foreach ($collection as $item) {
             $this->data[] = $item;
@@ -120,10 +120,10 @@ class ObjectCollection extends Collection
 
     /**
      * Compares 2 collections
-     * @param \MagicPill\Collection\ObjectCollection $collection
+     * @param \MagicPill\Collection\Collection $collection
      * @return bool
      */
-    public function equals(ObjectCollection $collection)
+    public function equals(Collection $collection)
     {
         if ($this->count === $collection->count()) {
             foreach($collection as $value) {
