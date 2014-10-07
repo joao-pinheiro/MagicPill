@@ -95,7 +95,6 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Clears the collection an internal counters
-     * @return void
      * @return \MagicPill\Collection\Dictionary
      */
     public function clear()
@@ -187,7 +186,7 @@ class Dictionary implements DictionaryInterface
     public function seek($position)
     {
         reset($this->data);
-        while((key($this->data) !== $position)) {
+        while(key($this->data) !== $position && $this->valid()) {
             next($this->data);
         }
         return $this;
@@ -200,7 +199,7 @@ class Dictionary implements DictionaryInterface
     public function valid()
     {
         $key = key($this->data);
-        return isset($key);
+        return null !== $key;
     }
 
     /**
@@ -224,7 +223,7 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Alias for offsetGet
-     * @param mixed $index
+     * @param mixed $key
      * @return mixed
      */
     public function get($key)
@@ -240,7 +239,7 @@ class Dictionary implements DictionaryInterface
      */
     public function offsetExists($offset)
     {
-        return key_exists($offset, $this->data);
+        return array_key_exists($offset, $this->data);
     }
 
     /**
@@ -250,7 +249,7 @@ class Dictionary implements DictionaryInterface
      */
     public function offsetGet($offset)
     {
-        if (key_exists($offset, $this->data)) {
+        if (array_key_exists($offset, $this->data)) {
             return $this->data[$offset];
         }
         return null;
@@ -276,7 +275,7 @@ class Dictionary implements DictionaryInterface
      */
     public function offsetUnset($offset)
     {
-        if (key_exists($offset, $this->data) && !$this->readOnly) {
+        if  (array_key_exists($offset, $this->data) && !$this->readOnly) {
             unset($this->data[$offset]);
             $this->count--;
         }
@@ -284,11 +283,12 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Returns true if the key exists in the dictionary
-     * @param type $key
+     * @param mixed $key
+     * @return bool
      */
     public function containsKey($key)
     {
-        return key_exists($key, $this->data);
+        return array_key_exists($key, $this->data);
     }
 
     /**
@@ -347,7 +347,7 @@ class Dictionary implements DictionaryInterface
      */
     public function remove($key)
     {
-        if (!$this->readOnly && key_exists($key, $this->data)) {
+        if (!$this->readOnly && array_key_exists($key, $this->data)) {
             unset($this->data[$key]);
             $this->count--;
         }
@@ -364,7 +364,7 @@ class Dictionary implements DictionaryInterface
     {
         if ($collection instanceof Dictionary) {
             foreach($collection as $key => $value) {
-                if (!key_exists($key, $this->data)) {
+                if (!array_key_exists($key, $this->data)) {
                     $this->data[$key] = $value;
                     $this->count++;
                 }

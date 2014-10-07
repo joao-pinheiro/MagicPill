@@ -163,7 +163,7 @@ class Collection implements ListInterface
     public function seek($position)
     {
         if (($position < $this->count) && ($position >= 0)) {
-            $this->cursor++;
+            $this->cursor = $position;
         }
         return $this;
     }
@@ -300,7 +300,7 @@ class Collection implements ListInterface
     /**
      * Alias for Add - Adds an item to the end of the collection
      *
-     * @param type $value
+     * @param mixed $value
      * @return \MagicPill\Collection\Collection
      */
     public function push($value)
@@ -366,10 +366,13 @@ class Collection implements ListInterface
      */
     public function appendFrom(Collection $collection)
     {
-        foreach ($collection as $item) {
-            $this->data[] = $item;
-            $this->count++;
+        if(!$this->readOnly) {
+            foreach ($collection as $item) {
+                $this->data[] = $item;
+                $this->count++;
+            }
         }
+
         return $this;
     }
 
@@ -403,16 +406,13 @@ class Collection implements ListInterface
     }
 
     /**
-     * Adds an element to the top of the list
+     * Alias for unshift()
      * @param mixed $value
      * @return \MagicPill\Collection\Collection
      */
     public function prepend($value)
     {
-        if (!$this->readOnly) {
-            array_unshift($this->data, $value);
-            $this->count++;
-        }
+        $this->unshift($value);
         return $this;
     }
 }
