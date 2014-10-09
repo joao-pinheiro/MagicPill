@@ -40,13 +40,14 @@ class HashDictionary extends HashTable
     /**
      * Adds an item to the hash Dictionary
      * @param string $hash
-     * @param string $key
+     * @param string|array $key
      * @param mixed $value
      * @return \MagicPill\Collection\HashDictionary
      */
     public function add($hash, $key, $value = null)
     {
-        if (!$this->readOnly && (null !== $key) && (null !== $hash)) {
+        if (!$this->readOnly && (!empty($key)) && (null !== $hash)) {
+            // to allow short notation on add($hash, array($key => $value));
             if (is_array($key)) {
                 $values = array_values($key);
                 $keys = array_keys($key);
@@ -65,14 +66,14 @@ class HashDictionary extends HashTable
     }
 
     /**
-     * Compares 2 hash dictionares
-     * @param \MagicPill\Collection\DictionaryInterface $dictionary
+     * Compares 2 hash dictionaries
+     * @param \MagicPill\Collection\HashDictionary $dictionary
      * @return bool
      */
-    public function equals(DictionaryInterface $dictionary)
+    public function equals($value)
     {
-        if ($this->count === $dictionary->count()) {
-            foreach($dictionary as $key => $obj) {
+        if (($value instanceof HashDictionary) && ($this->count === $value->count())) {
+            foreach($value as $key => $obj) {
                 if (!isset($this->data[$key])) {
                     return false;
                 }
@@ -87,20 +88,20 @@ class HashDictionary extends HashTable
 
     /**
      * Append a hash dictionary
-     * @param \MagicPill\Collection\DictionaryInterface $collection
+     * @param \MagicPill\Collection\HashDictionary $collection
      * @return \MagicPill\Collection\HashDictionary
      */
-    public function appendFrom(DictionaryInterface $collection)
+    public function appendFrom($collection)
     {
         if ($collection instanceof HashDictionary) {
             foreach($collection as $key => $value) {
                 if (!array_key_exists($key, $this->data)) {
                     $this->data[$key] = $value;
-                    $this->count++;
                 } else {
                     $this->data[$key]->appendFrom($value);
                 }
             }
+            $this->count = count($this->data);
         }
         return $this;
     }

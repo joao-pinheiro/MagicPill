@@ -41,5 +41,6 @@ interface ListInterface extends \SeekableIterator, \Countable, \ArrayAccess
     public function getHashCode();
     public function isReadOnly();
     public function protect();
+    public function unprotect();
     public function isEmpty();
 }

@@ -52,8 +52,10 @@ class ObjectCollection extends Collection
         if (null !== $objectType) {
             $this->setObjectType($objectType);
         }
-        if (is_array($data) && (!empty($data))) {
+        if (is_array($data)) {
             $this->fromArray($data);
+        } elseif ($data instanceof Collection) {
+            $this->appendFrom($data);
         }
     }
 
@@ -107,13 +109,12 @@ class ObjectCollection extends Collection
     /**
      * Appends a collection
      * @param \MagicPill\Collection\Collection $collection
-     * @return \MagicPill\Collection\ObjectCollection
+     * @return \MagicPill\Collection\Collection
      */
     public function appendFrom(Collection $collection)
     {
         foreach ($collection as $item) {
-            $this->data[] = $item;
-            $this->count++;
+            $this->add($item);
         }
         return $this;
     }
@@ -123,7 +124,7 @@ class ObjectCollection extends Collection
      * @param \MagicPill\Collection\Collection $collection
      * @return bool
      */
-    public function equals(Collection $collection)
+    public function equals(ObjectCollection $collection)
     {
         if ($this->count === $collection->count()) {
             foreach($collection as $value) {
