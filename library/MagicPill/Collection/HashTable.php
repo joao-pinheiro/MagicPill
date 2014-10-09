@@ -46,7 +46,7 @@ class HashTable extends Dictionary
     public function add($key, $value)
     {
         if (!$this->readOnly && (null !== $key)) {
-            if (key_exists($key, $this->data)) {
+            if (array_key_exists($key, $this->data)) {
                 $this->data[$key]->add($value);
             } else {
                 $this->data[$key] = new Collection(array($value));
@@ -67,7 +67,7 @@ class HashTable extends Dictionary
             if ($list->containsValue($value)) {
                 return true;
             }
-        }die;
+        }
         return false;
     }
 
@@ -101,7 +101,7 @@ class HashTable extends Dictionary
     {
         if ($collection instanceof HashTable) {
             foreach($collection as $key => $value) {
-                if (!key_exists($key, $this->data)) {
+                if (!array_key_exists($key, $this->data)) {
                     $this->data[$key] = $value;
                     $this->count++;
                 } else {

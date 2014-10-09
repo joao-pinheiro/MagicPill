@@ -54,7 +54,7 @@ class HashDictionary extends HashTable
                 $key = array_shift($keys);
             }
 
-            if (key_exists($hash, $this->data)) {
+            if (array_key_exists($hash, $this->data)) {
                 $this->data[$hash]->add($key, $value);
             } else {
                 $this->data[$hash] = new Dictionary(array($key => $value));
@@ -94,7 +94,7 @@ class HashDictionary extends HashTable
     {
         if ($collection instanceof HashDictionary) {
             foreach($collection as $key => $value) {
-                if (!key_exists($key, $this->data)) {
+                if (!array_key_exists($key, $this->data)) {
                     $this->data[$key] = $value;
                     $this->count++;
                 } else {
