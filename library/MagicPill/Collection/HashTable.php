@@ -38,12 +38,12 @@ namespace MagicPill\Collection;
 class HashTable extends Dictionary
 {
     /**
-     * Adds an item to the hash table
+     * Adds a scalar item to the hash table
      * @param string $key
      * @param mixed $value
-     * @return \MagicPill\Collection\HashDictionary
+     * @return \MagicPill\Collection\HashTable
      */
-    public function add($key, $value)
+    public function addScalar($key, $value)
     {
         if (!$this->readOnly && (null !== $key)) {
             if (key_exists($key, $this->data)) {
@@ -55,9 +55,41 @@ class HashTable extends Dictionary
         }
         return $this;
     }
+    
+    /**
+     * Adds an item to the hash table
+     * If value is an array or a collection, child items are treated as leafs
+     * @param string $key
+     * @param mixed $value
+     * @return \MagicPill\Collection\HashTable
+     */
+    public function add($key, $value)
+    {
+        if ($value instanceof Collection) {
+            $value = $value->toArray();
+        }
+        
+        if (!$this->readOnly && (null !== $key)) {
+            if (key_exists($key, $this->data)) {
+                if (!is_array($value)) {
+                    $this->data[$key]->add($value);
+                } else {
+                    $this->data[$key]->fromArray($value);
+                }
+            } else {
+                if (is_array($value)) {
+                    $this->data[$key] = new Collection($value);
+                } else {
+                    $this->data[$key] = new Collection(array($value));
+                }
+                $this->count++;
+            }
+        }
+        return $this;
+    }
 
     /**
-     * Checks if a given value exists
+     * Checks if a given value exists in all collections of the hashtable
      * @param mixed $value
      * @return boolean
      */
@@ -67,19 +99,35 @@ class HashTable extends Dictionary
             if ($list->containsValue($value)) {
                 return true;
             }
-        }die;
+        }
         return false;
     }
 
     /**
-     * Compares 2 hashtables
-     * @param \MagicPill\Collection\DictionaryInterface $dictionary
+     * Returns the hashTable as an associative array
+     * @return array
+     */
+    public function toArray()
+    {
+        $result = array();
+        foreach($this->data as $key => $value) {
+            $result[$key] = $value->toArray();
+        }
+        return $result;
+    }
+    
+    /**
+     * Compares 2 hashtables and return true if exactly equal
+     * @param \MagicPill\Collection\HashTable $value
      * @return bool
      */
-    public function equals(DictionaryInterface $dictionary)
+    public function equals($value)
     {
-        if ($this->count === $dictionary->count()) {
-            foreach($dictionary as $key => $obj) {
+        if (($value instanceof HashTable) && ($this->count === $value->count())) {
+            foreach($value as $key => $obj) {
+                if (!is_object($obj)) {
+                    return false;
+                }
                 if (!isset($this->data[$key])) {
                     return false;
                 }
@@ -94,21 +142,22 @@ class HashTable extends Dictionary
 
     /**
      * Append a hashtable
-     * @param \MagicPill\Collection\DictionaryInterface $collection
+     * No intersection of leafs is done
+     * @param \MagicPill\Collection\HashTable $collection
      * @return \MagicPill\Collection\HashDictionary
      */
-    public function appendFrom(DictionaryInterface $collection)
+    public function appendFrom($collection)
     {
         if ($collection instanceof HashTable) {
             foreach($collection as $key => $value) {
                 if (!key_exists($key, $this->data)) {
                     $this->data[$key] = $value;
-                    $this->count++;
                 } else {
                     $this->data[$key]->appendFrom($value);
                 }
             }
         }
+        $this->count = count($this->data);
         return $this;
     }
 }

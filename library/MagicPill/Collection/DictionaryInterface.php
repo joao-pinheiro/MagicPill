@@ -40,9 +40,9 @@ interface DictionaryInterface extends ListInterface
     public function add($key, $value);
     public function containsKey($key);
     public function containsValue($value);
-    public function equals(DictionaryInterface $dictionary);
+    public function equals($value);
     public function keys();
     public function values();
     public function remove($key);
-    public function appendFrom(DictionaryInterface $collection);
+    public function appendFrom($collection);
 }

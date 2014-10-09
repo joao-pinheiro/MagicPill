@@ -64,13 +64,15 @@ class Collection implements ListInterface
      */
     public function __construct($data = array())
     {
-        if (is_array($data) && (!empty($data))) {
+        if (is_array($data)) {
             $this->fromArray($data);
-        }
+        } elseif ($data instanceof Collection) {
+            $this->appendFrom($data);
+        }        
     }
 
     /**
-     * Loads collection from array
+     * Appends collection from array
      * @param array $array
      * @return \MagicPill\Collection\Collection
      */
@@ -85,6 +87,7 @@ class Collection implements ListInterface
     /**
      * Adds an item to the collection
      * @param mixed $value
+     * @return \MagicPill\Collection\Collection
      */
     public function add($value)
     {
@@ -92,6 +95,7 @@ class Collection implements ListInterface
             $this->data[] = $value;
             $this->count++;
         }
+        return $this;
     }
 
     /**
@@ -146,6 +150,16 @@ class Collection implements ListInterface
     }
 
     /**
+     * Makes the current collection read-write
+     * @return \MagicPill\Collection\Collection
+     */
+    public function unprotect()
+    {
+        $this->readOnly = false;
+        return $this;
+    }
+    
+    /**
      * Returns true if the collection is empty
      * @return boolean
      */
@@ -162,8 +176,8 @@ class Collection implements ListInterface
      */
     public function seek($position)
     {
-        if (($position < $this->count) && ($position >= 0)) {
-            $this->cursor++;
+        if (($position >= 0) && ($position < $this->count)) {
+            $this->cursor = $position;
         }
         return $this;
     }
@@ -255,8 +269,7 @@ class Collection implements ListInterface
      */
     public function offsetExists($offset)
     {
-        $offset = (int) $offset;
-        return ($offset >= 0) && ($this->count > 0) && ($offset < $this->count);
+        return array_key_exists((int) $offset, $this->data);
     }
 
     /**
@@ -287,12 +300,14 @@ class Collection implements ListInterface
 
     /**
      * Removes an index from the list
+     * Internal index association is updated to maintain behaviour like a list
      * @param integer $offset
      */
     public function offsetUnset($offset)
     {
         if ($this->offsetExists($offset) && !$this->readOnly) {
             unset($this->data[$offset]);
+            $this->data = array_values($this->data);
             $this->count--;
         }
     }
@@ -360,29 +375,32 @@ class Collection implements ListInterface
     }
 
     /**
-     * Appends a list
+     * Appends a collection
      * @param \MagicPill\Collection\Collection $collection
      * @return \MagicPill\Collection\Collection
      */
     public function appendFrom(Collection $collection)
     {
-        foreach ($collection as $item) {
-            $this->data[] = $item;
-            $this->count++;
+        foreach($collection as $item) {
+            $this->add($item);
         }
         return $this;
     }
 
     /**
-     * Compares 2 lists
-     * @param \MagicPill\Collection\Collection $list
+     * Compares two collections and returns true if both contain
+     * the same elements by the same order
+     * @param \MagicPill\Collection\Collection $collection
      * @return bool
      */
-    public function equals(Collection $list)
+    public function equals(Collection $collection)
     {
-        if ($this->count === $list->count()) {
-            foreach($list as $value) {
-                if (!in_array($value, $this->data)) {
+        if ($this->count === $collection->count()) {
+            for ($i = 0; $i < $this->count; $i++) {
+                if (!$collection->offsetExists($i)) {
+                    return false;
+                }
+                if ($collection->get($i) !== $this->get($i)) {
                     return false;
                 }
             }

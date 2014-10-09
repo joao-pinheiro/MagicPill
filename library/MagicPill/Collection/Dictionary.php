@@ -67,21 +67,23 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Adds an item to the dictionary
+     * Existing keys are rewritten
      * @param string $key
-     * @param mixed $value
+     * @param mixed|null $value
      * @return \MagicPill\Collection\Dictionary
      */
-    public function add($key, $value)
+    public function add($key, $value = null)
     {
         if (!$this->readOnly && (null !== $key)) {
             $this->data[$key] = $value;
-            $this->count++;
+            $this->count = count($this->data);
         }
         return $this;
     }
 
     /**
      * Loads dictionary from associative array
+     * Existing keys are rewritten
      * @param array $array
      * @return \MagicPill\Collection\Dictionary
      */
@@ -94,8 +96,7 @@ class Dictionary implements DictionaryInterface
     }
 
     /**
-     * Clears the collection an internal counters
-     * @return void
+     * Clears the dictionary and internal counters
      * @return \MagicPill\Collection\Dictionary
      */
     public function clear()
@@ -109,7 +110,7 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Returns the collection hash
-     * @return bool
+     * @return string
      */
     public function getHashCode()
     {
@@ -126,7 +127,7 @@ class Dictionary implements DictionaryInterface
     }
 
     /**
-     * Makes the current collection read-only
+     * Makes the current dictionary read-only
      * @return \MagicPill\Collection\Dictionary
      */
     public function protect()
@@ -134,7 +135,17 @@ class Dictionary implements DictionaryInterface
         $this->readOnly = true;
         return $this;
     }
-
+    
+    /**
+     * Makes the current dictionary read-write
+     * @return \MagicPill\Collection\Dictionary
+     */
+    public function unprotect()
+    {
+        $this->readOnly = false;
+        return $this;
+    }
+    
     /**
      * Returns true if the collection is empty
      * @return boolean
@@ -146,7 +157,6 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Returns the current value
-     *
      * @return mixed
      */
     public function current()
@@ -168,7 +178,7 @@ class Dictionary implements DictionaryInterface
     }
 
     /**
-     * Returns current offset
+     * Returns current key
      * @return integer
      */
     public function key()
@@ -224,7 +234,7 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Alias for offsetGet
-     * @param mixed $index
+     * @param string|integer $key
      * @return mixed
      */
     public function get($key)
@@ -234,8 +244,7 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Returns true if the given key exists in the dictionary
-     *
-     * @param integer $offset
+     * @param string|integer $offset
      * @return boolean
      */
     public function offsetExists($offset)
@@ -245,8 +254,8 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Returns the value stored for the given key
-     * @param string $offset
-     * @return null
+     * @param string|integer $offset
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
@@ -259,8 +268,9 @@ class Dictionary implements DictionaryInterface
     /**
      * Sets the value for a given key
      *
-     * @param string $offset
+     * @param string|integer $offset
      * @param mixed $value
+     * @return \MagicPill\Collection\Dictionary
      */
     public function offsetSet($offset, $value)
     {
@@ -268,11 +278,12 @@ class Dictionary implements DictionaryInterface
             $this->data[$offset] = $value;
             $this->count = count($this->data);
         }
+        return $this;
     }
 
     /**
      * Removes an entry from the dictionary
-     * @param integer $offset
+     * @param string|integer $offset
      */
     public function offsetUnset($offset)
     {
@@ -284,7 +295,7 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Returns true if the key exists in the dictionary
-     * @param type $key
+     * @param string|integer $key
      */
     public function containsKey($key)
     {
@@ -303,17 +314,17 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Compares 2 dictionaries
-     * @param \MagicPill\Collection\DictionaryInterface $dictionary
+     * @param \MagicPill\Collection\Dictionary $value
      * @return bool
      */
-    public function equals(DictionaryInterface $dictionary)
+    public function equals($value)
     {
-        if ($this->count === $dictionary->count()) {
-            foreach($dictionary as $key => $value) {
+        if (($value instanceof Dictionary) && ($this->count === $value->count())) {
+            foreach($value as $key => $item) {
                 if (!isset($this->data[$key])) {
                     return false;
                 }
-                if ($this->data[$key] !== $value) {
+                if ($this->data[$key] !== $item) {
                     return false;
                 }
             }
@@ -357,17 +368,14 @@ class Dictionary implements DictionaryInterface
     /**
      * Append a dictionary
      * Only non-existing keys are added
-     * @param \MagicPill\Collection\DictionaryInterface $collection
+     * @param \MagicPill\Collection\Dictionary|array $collection
      * @return \MagicPill\Collection\Dictionary
      */
-    public function appendFrom(DictionaryInterface $collection)
+    public function appendFrom($collection)
     {
-        if ($collection instanceof Dictionary) {
+        if (($collection instanceof Dictionary) || is_array($collection)) {
             foreach($collection as $key => $value) {
-                if (!key_exists($key, $this->data)) {
-                    $this->data[$key] = $value;
-                    $this->count++;
-                }
+                $this->add($key, $value);
             }
         }
         return $this;
@@ -388,7 +396,7 @@ class Dictionary implements DictionaryInterface
      * @param mixed $value
      * @return mixed
      */
-    public function __set($name , $value)
+    public function __set($name, $value)
     {
         $this->offsetSet($name, $value);
         return $this;
