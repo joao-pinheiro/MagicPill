@@ -315,7 +315,7 @@ class Dictionary implements DictionaryInterface
      * @param \MagicPill\Collection\Dictionary $value
      * @return bool
      */
-    public function equals(DictionaryInterface $value)
+    public function equals($value)
     {
         if (($value instanceof Dictionary) && ($this->count === $value->count())) {
             foreach($value as $key => $item) {
