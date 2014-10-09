@@ -1,0 +1,13 @@
+<phpunit bootstrap="bootstrap.php" colors="true">
+    <php>
+        <ini name="memory_limit" value="-1"/>
+    </php>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../library</directory>
+        </whitelist>
+    </filter>
+    <testsuite name="MagicPill">
+        <directory>MagicPill</directory>
+    </testsuite>
+</phpunit>
