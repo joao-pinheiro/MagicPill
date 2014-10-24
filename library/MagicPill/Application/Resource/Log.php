@@ -36,6 +36,7 @@
 namespace MagicPill\Application\Resource;
 
 use MagicPill\Exception\ExceptionFactory;
+use MagicPill\Util\Log\LogManager;
 
 class Log extends ResourceAbstract
 {
@@ -50,7 +51,7 @@ class Log extends ResourceAbstract
         $result = null;
         $config = $application->getConfig();
         if ($config->log) {
-            $result = \Zend_Log::factory($config->log);
+            $result = new LogManager($config->log);
         } else {
             ExceptionFactory::ResourceLogException('Log configuration not found');
         }

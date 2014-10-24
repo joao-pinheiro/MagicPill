@@ -66,6 +66,26 @@ class HashDictionary extends HashTable
     }
 
     /**
+     * Loads HashDictionary from associative array
+     * Existing keys are rewritten
+     * @param array $array
+     * @return \MagicPill\Collection\HashDictionary
+     */
+    public function fromArray(array $array)
+    {
+        foreach($array as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $item => $content) {
+                    $this->add($key, $item, $content);
+                }
+            } else {
+                $this->add($key, $value);
+            }
+        }
+        return $this;
+    }
+    
+    /**
      * Compares 2 hash dictionaries
      * @param \MagicPill\Collection\HashDictionary $dictionary
      * @return bool
@@ -96,7 +116,7 @@ class HashDictionary extends HashTable
         if ($collection instanceof HashDictionary) {
             foreach($collection as $key => $value) {
                 if (!array_key_exists($key, $this->data)) {
-                    $this->data[$key] = $value;
+                    $this->data[$key] = new Dictionary($value);
                 } else {
                     $this->data[$key]->appendFrom($value);
                 }

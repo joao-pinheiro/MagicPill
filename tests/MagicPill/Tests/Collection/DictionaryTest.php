@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicPill\Test\Dictionary;
+namespace MagicPill\Test\Collection;
 
 use MagicPill\Collection\Dictionary;
 

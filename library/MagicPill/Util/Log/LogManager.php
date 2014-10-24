@@ -157,11 +157,7 @@ class LogManager extends Object
         if (null == $logger) {
             ExceptionFactory::LogManagerNamespaceNotFoundException('Logger with name ' . $name . ' not found');
         }
-        
-        $params = get_object_vars($this);
-        array_shift($params);
-        array_shift($params);
-        call_user_func_array(array($logger, $name), $params);
+        call_user_func_array(array($logger, $name), $arguments);
     }
     
     /**

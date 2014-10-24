@@ -85,8 +85,22 @@ class HashTable extends Dictionary
                 $this->count++;
             }
         }
+        return $this;
     }
-        
+
+    /**
+     * Converts the hashtable to an array
+     * @return array
+     */
+    public function toArray()
+    {
+        $result = array();
+        foreach($this->data as $key => $collection) {
+            $result[$key] = $collection->toArray();
+        }
+        return $result;
+    }
+    
     /**
      * Checks if a given value exists
      * @param mixed $value

@@ -124,7 +124,7 @@ class ObjectCollection extends Collection
      * @param \MagicPill\Collection\Collection $collection
      * @return bool
      */
-    public function equals(ObjectCollection $collection)
+    public function equals(Collection $collection)
     {
         if ($this->count === $collection->count()) {
             foreach($collection as $value) {
