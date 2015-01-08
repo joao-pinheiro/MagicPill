@@ -70,7 +70,7 @@ class IniFile extends ConfigFileAbstract
         restore_error_handler();
 
         if ('' !== $this->getError()) {
-            ExceptionFactory::ConfigIniFileException($e->getMessage());
+            ExceptionFactory::ConfigIniFileException($this->getError());
         }
         
         return $data;

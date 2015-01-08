@@ -36,6 +36,7 @@
 namespace MagicPill\Application\Resource;
 
 use MagicPill\Util\Config\IniFile;
+use MagicPill\Util\Config\PhpFile;
 use MagicPill\Exception\ExceptionFactory;
 
 class Config extends ResourceAbstract
@@ -134,6 +135,17 @@ class Config extends ResourceAbstract
         if (!file_exists($filename)) {
             ExceptionFactory::ResourceConfigException('Config file ' . $filename . ' not found');
         }
-        return new IniFile($filename, $environment);
+        $tmp = explode('.', $filename);
+        $extension = array_pop($tmp);
+        switch($extension) {
+            case 'ini':
+                return new IniFile($filename, $environment);
+            
+            case 'php':
+                return new PhpFile($filename);
+            
+            default:
+               ExceptionFactory::ResourceConfigException('Unsupported config file format'); 
+        }
     }
 }

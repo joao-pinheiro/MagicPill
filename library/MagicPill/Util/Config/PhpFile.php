@@ -49,7 +49,7 @@ class PhpFile extends ConfigFileAbstract
     {
         try {
             $data = require $filename;
-        } catch (Exception $ex) {
+        } catch (Exception $e) {
             ExceptionFactory::ConfigPhpFileException($e->getMessage);
         }
         return $data;
