@@ -100,7 +100,24 @@ class HashTable extends Dictionary
         }
         return $result;
     }
-    
+
+    /**
+     * Loads hashtable from associative array
+     * Existing keys are rewritten
+     * @param array $array
+     * @return \MagicPill\Collection\HashTable
+     */
+    public function fromArray(array $array)
+    {
+        foreach($array as $key => $value) {
+            if (is_array($value)) {
+                $value = new Collection($value);
+            }
+            $this->add($key, $value);
+        }
+        return $this;
+    }
+
     /**
      * Checks if a given value exists
      * @param mixed $value

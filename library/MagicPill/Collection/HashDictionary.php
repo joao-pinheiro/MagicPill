@@ -58,9 +58,11 @@ class HashDictionary extends HashTable
             if (array_key_exists($hash, $this->data)) {
                 $this->data[$hash]->add($key, $value);
             } else {
-                $this->data[$hash] = new Dictionary(array($key => $value));
-                $this->count++;
+                $this->data[$hash] = ($key instanceof Dictionary)
+                    ? $key
+                    : new Dictionary(array($key => $value));
             }
+            $this->count++;
         }
         return $this;
     }
