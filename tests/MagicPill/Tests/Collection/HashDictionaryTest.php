@@ -80,7 +80,7 @@ class HashDictionaryTest extends \PHPUnit_Framework_TestCase
         $hash = new HashDictionary();
         $hash->fromArray($data);
         $this->assertEquals(count($data), $hash->count());
-        $this->assertEquals($data, $hash->toArray());        
+        $this->assertEquals($data, $hash->toArray());
     }
     
     /**
