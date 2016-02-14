@@ -2,7 +2,7 @@
 /**
  * MagicPill
  *
- * Copyright (c) 2014, Joao Pinheiro
+ * Copyright (c) 2014-2016, Joao Pinheiro
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -29,7 +29,7 @@
  *
  * @category   MagicPill
  * @package    Collection
- * @copyright  Copyright (c) 2014 Joao Pinheiro
+ * @copyright  Copyright (c) 2014-2016 Joao Pinheiro
  * @version    0.9
  */
 
@@ -74,7 +74,7 @@ class Collection implements ListInterface
     /**
      * Appends collection from array
      * @param array $array
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function fromArray(array $array)
     {
@@ -87,7 +87,7 @@ class Collection implements ListInterface
     /**
      * Adds an item to the collection
      * @param mixed $value
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function add($value)
     {
@@ -100,7 +100,7 @@ class Collection implements ListInterface
 
     /**
      * Clears the collection an internal counters
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function clear()
     {
@@ -141,7 +141,7 @@ class Collection implements ListInterface
 
     /**
      * Makes the current collection read-only
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function protect()
     {
@@ -151,7 +151,7 @@ class Collection implements ListInterface
     
     /**
      * Makes the current collection read-write
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function unprotect()
     {
@@ -172,7 +172,7 @@ class Collection implements ListInterface
      * Seeks to specified offset
      *
      * @param integer $position
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function seek($position)
     {
@@ -197,7 +197,7 @@ class Collection implements ListInterface
 
     /**
      * Moves cursor to next item
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function next()
     {
@@ -230,7 +230,7 @@ class Collection implements ListInterface
 
     /**
      * Resets the internal pointer to the first element
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function rewind()
     {
@@ -316,7 +316,7 @@ class Collection implements ListInterface
      * Alias for Add - Adds an item to the end of the collection
      *
      * @param mixed $value
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function push($value)
     {
@@ -354,7 +354,7 @@ class Collection implements ListInterface
     /**
      * Add an element to the beginning of the collection
      * @param mixed $value
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function unshift($value)
     {
@@ -377,7 +377,7 @@ class Collection implements ListInterface
     /**
      * Appends a list
      * @param \MagicPill\Collection\Collection $collection
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function appendFrom(Collection $collection)
     {
@@ -411,7 +411,7 @@ class Collection implements ListInterface
     /**
      * Alias for add()
      * @param mixed $value
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function append($value)
     {
@@ -422,7 +422,7 @@ class Collection implements ListInterface
     /**
      * Alias for unshift()
      * @param mixed $value
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function prepend($value)
     {

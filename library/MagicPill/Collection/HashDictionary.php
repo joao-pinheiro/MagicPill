@@ -2,7 +2,7 @@
 /**
  * MagicPill
  *
- * Copyright (c) 2014, Joao Pinheiro
+ * Copyright (c) 2014-2016, Joao Pinheiro
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -29,8 +29,8 @@
  *
  * @category   MagicPill
  * @package    Collection
- * @copyright  Copyright (c) 2014 Joao Pinheiro
- * @version    0.9
+ * @copyright  Copyright (c) 2014-2016 Joao Pinheiro
+ * @version    1.0
  */
 
 namespace MagicPill\Collection;
@@ -42,7 +42,7 @@ class HashDictionary extends HashTable
      * @param string $hash
      * @param string|array $key
      * @param mixed $value
-     * @return \MagicPill\Collection\HashDictionary
+     * @return $this
      */
     public function add($hash, $key, $value = null)
     {
@@ -60,9 +60,9 @@ class HashDictionary extends HashTable
             } else {
                 $this->data[$hash] = ($key instanceof Dictionary)
                     ? $key
-                    : new Dictionary(array($key => $value));
+                    : new Dictionary([$key => $value]);
+                $this->count++;
             }
-            $this->count++;
         }
         return $this;
     }
@@ -70,18 +70,20 @@ class HashDictionary extends HashTable
     /**
      * Loads HashDictionary from associative array
      * Existing keys are rewritten
-     * @param array $array
-     * @return \MagicPill\Collection\HashDictionary
+     * @param \Traversable|array $array
+     * @return $this
      */
-    public function fromArray(array $array)
+    public function fromArray($array)
     {
-        foreach($array as $key => $value) {
-            if (is_array($value)) {
-                foreach ($value as $item => $content) {
-                    $this->add($key, $item, $content);
+        if (is_array($array) || $array instanceof \Traversable) {
+            foreach ($array as $key => $value) {
+                if (is_array($value) || $value instanceof \Traversable) {
+                    foreach ($value as $item => $content) {
+                        $this->add($key, $item, $content);
+                    }
+                } else {
+                    $this->add($key, $value);
                 }
-            } else {
-                $this->add($key, $value);
             }
         }
         return $this;
@@ -111,7 +113,7 @@ class HashDictionary extends HashTable
     /**
      * Append a hash dictionary
      * @param \MagicPill\Collection\HashDictionary $collection
-     * @return \MagicPill\Collection\HashDictionary
+     * @return $this
      */
     public function appendFrom($collection)
     {

@@ -2,7 +2,7 @@
 /**
  * MagicPill
  *
- * Copyright (c) 2014, Joao Pinheiro
+ * Copyright (c) 2014-2016, Joao Pinheiro
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -29,8 +29,8 @@
  *
  * @category   MagicPill
  * @package    Collection
- * @copyright  Copyright (c) 2014 Joao Pinheiro
- * @version    0.9
+ * @copyright  Copyright (c) 2014-2016 Joao Pinheiro
+ * @version    1.0
  */
 
 namespace MagicPill\Collection;
@@ -98,7 +98,7 @@ class ObjectCollection extends Collection
     /**
      * Defines the collection object type
      * @param string $type
-     * @param \MagicPill\Collection\ObjectCollection
+     * @return $this
      */
     public function setObjectType($type)
     {
@@ -109,7 +109,7 @@ class ObjectCollection extends Collection
     /**
      * Appends a collection
      * @param \MagicPill\Collection\Collection $collection
-     * @return \MagicPill\Collection\Collection
+     * @return $this
      */
     public function appendFrom(Collection $collection)
     {

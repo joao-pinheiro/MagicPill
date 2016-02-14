@@ -2,7 +2,7 @@
 /**
  * MagicPill
  *
- * Copyright (c) 2014, Joao Pinheiro
+ * Copyright (c) 2014-2016, Joao Pinheiro
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -29,8 +29,8 @@
  *
  * @category   MagicPill
  * @package    Collection
- * @copyright  Copyright (c) 2014 Joao Pinheiro
- * @version    0.9
+ * @copyright  Copyright (c) 2014-2016 Joao Pinheiro
+ * @version    1.0
  */
 
 namespace MagicPill\Collection;
@@ -41,7 +41,7 @@ class HashTable extends Dictionary
      * Adds a scalar item to the hash table
      * @param string $key
      * @param mixed $value
-     * @return \MagicPill\Collection\HashTable
+     * @return $this
      */
     public function addScalar($key, $value)
     {
@@ -61,7 +61,7 @@ class HashTable extends Dictionary
      * If value is an array or a collection, child items are treated as leafs
      * @param string $key
      * @param mixed $value
-     * @return \MagicPill\Collection\HashTable
+     * @return $this
      */
     public function add($key, $value)
     {
@@ -105,15 +105,17 @@ class HashTable extends Dictionary
      * Loads hashtable from associative array
      * Existing keys are rewritten
      * @param array $array
-     * @return \MagicPill\Collection\HashTable
+     * @return $this
      */
-    public function fromArray(array $array)
+    public function fromArray($array)
     {
-        foreach($array as $key => $value) {
-            if (is_array($value)) {
-                $value = new Collection($value);
+        if (is_array($array) || $array instanceof \Traversable) {
+            foreach ($array as $key => $value) {
+                if (is_array($value)) {
+                    $value = new Collection($value);
+                }
+                $this->add($key, $value);
             }
-            $this->add($key, $value);
         }
         return $this;
     }
@@ -161,7 +163,7 @@ class HashTable extends Dictionary
      * Append a hashtable
      * No intersection of leafs is done
      * @param \MagicPill\Collection\HashTable $collection
-     * @return \MagicPill\Collection\HashDictionary
+     * @return $this
      */
     public function appendFrom($collection)
     {

@@ -2,7 +2,7 @@
 /**
  * MagicPill
  *
- * Copyright (c) 2014, Joao Pinheiro
+ * Copyright (c) 2014-2016, Joao Pinheiro
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -29,8 +29,8 @@
  *
  * @category   MagicPill
  * @package    Collection
- * @copyright  Copyright (c) 2014 Joao Pinheiro
- * @version    0.9
+ * @copyright  Copyright (c) 2014-2016 Joao Pinheiro
+ * @version    1.0
  */
 
 namespace MagicPill\Collection;

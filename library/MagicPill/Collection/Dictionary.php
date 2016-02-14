@@ -2,7 +2,7 @@
 /**
  * MagicPill
  *
- * Copyright (c) 2014, Joao Pinheiro
+ * Copyright (c) 2014-2016, Joao Pinheiro
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -29,8 +29,8 @@
  *
  * @category   MagicPill
  * @package    Collection
- * @copyright  Copyright (c) 2014 Joao Pinheiro
- * @version    0.9
+ * @copyright  Copyright (c) 2014-2016 Joao Pinheiro
+ * @version    1.0
  */
 
 namespace MagicPill\Collection;
@@ -69,7 +69,7 @@ class Dictionary implements DictionaryInterface
      * Adds an item to the dictionary
      * @param string $key
      * @param mixed $value
-     * @return \MagicPill\Collection\Dictionary
+     * @return $this
      */
     public function add($key, $value = null)
     {
@@ -83,20 +83,22 @@ class Dictionary implements DictionaryInterface
     /**
      * Loads dictionary from associative array
      * Existing keys are rewritten
-     * @param array $array
-     * @return \MagicPill\Collection\Dictionary
+     * @param \Traversable|array $array
+     * @return $this
      */
-    public function fromArray(array $array)
+    public function fromArray($array)
     {
-        foreach($array as $key => $value) {
-            $this->add($key, $value);
+        if (is_array($array) || $array instanceof \Traversable) {
+            foreach ($array as $key => $value) {
+                $this->add($key, $value);
+            }
         }
         return $this;
     }
 
     /**
      * Clears the dictionary and internal counters
-     * @return \MagicPill\Collection\Dictionary
+     * @return $this
      */
     public function clear()
     {
@@ -127,7 +129,7 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Makes the current dictionary read-only
-     * @return \MagicPill\Collection\Dictionary
+     * @return $this
      */
     public function protect()
     {
@@ -137,7 +139,7 @@ class Dictionary implements DictionaryInterface
     
     /**
      * Makes the current dictionary read-write
-     * @return \MagicPill\Collection\Dictionary
+     * @return $this
      */
     public function unprotect()
     {
@@ -168,7 +170,7 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Moves cursor to next item
-     * @return \MagicPill\Collection\Dictionary
+     * @return $this
      */
     public function next()
     {
@@ -191,7 +193,7 @@ class Dictionary implements DictionaryInterface
     /**
      * Seeks internal pointer to a given position
      * @param string $position
-     * @return \MagicPill\Collection\Dictionary
+     * @return $this
      */
     public function seek($position)
     {
@@ -214,7 +216,7 @@ class Dictionary implements DictionaryInterface
 
     /**
      * Resets the internal pointer to the first element
-     * @return \MagicPill\Collection\Dictionary
+     * @return $this
      */
     public function rewind()
     {
@@ -352,7 +354,7 @@ class Dictionary implements DictionaryInterface
     /**
      * Removes an item from the dictionary
      * @param string $key
-     * @return \MagicPill\Collection\Dictionary
+     * @return $this
      */
     public function remove($key)
     {
