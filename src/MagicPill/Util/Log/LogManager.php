@@ -41,12 +41,10 @@ use MagicPill\Mixin\Inherit;
 
 class LogManager extends Object
 {
-    use Inherit;
-
     /**
      * @var array
      */
-    protected $loggerList = array();
+    protected $loggerList = [];
     
     /**
      * @var string 
@@ -55,28 +53,22 @@ class LogManager extends Object
     
     /**
      * Constructor
-     * @param \MagicPill\Util\Config|array $config
+     * @param \Traversable $config
      */
-    public function __construct($config = array())
+    public function __construct(\Traversable $config)
     {
-        if ($config instanceOf \MagicPill\Util\Config) {
-            $config = $config->toArray();
-        }
-        foreach ($config as $name => $config) {
-            $this->addLog($name, $this->createLog($config));
+        foreach ($config as $name => $writer) {
+            $this->addLog($name, $this->createLog($writer));
         }
     }
   
     /**
      * Creates a new Logger instance
-     * @param \MagicPill\Util\Config|array $config
+     * @param \Traversable $config
      * @return \MagicPill\Util\Log\Logger
      */
-    static public function createLog($config = array())
+    static public function createLog(\Traversable $config)
     {
-        if ($config instanceOf \MagicPill\Util\Config) {
-            $config = $config->toArray();
-        }
         return new Logger($config);
     }
     
@@ -109,7 +101,7 @@ class LogManager extends Object
     public function addLog($name, Logger $log)
     {
         if (isset($this->loggerList[$name])) {
-           ExceptionFactory::LogManagerDuplicateLoggerNameException('Log with name ' . $name . ' already exists');
+           ExceptionFactory::LogManagerDuplicateLoggerNameException(sprintf('Log with name %s already exists', $name));
         }
         $this->loggerList[$name] = $log;
         $log->setParent($this);
@@ -120,7 +112,7 @@ class LogManager extends Object
     /**
      * Retrieves a registered logger instance by namespace
      * @param string $name
-     * @return \MagicPill\Log\Logger
+     * @return \MagicPill\Util\Log\Logger
      */
     public function getLog($name)
     {
@@ -131,7 +123,7 @@ class LogManager extends Object
     
     /**
      * 
-     * @return \MagicPill\Log\Logger
+     * @return \MagicPill\Util\Log\Logger
      */
     public function getDefaultLog()
     {
@@ -143,6 +135,7 @@ class LogManager extends Object
      */
     public function shutdown()
     {
+        /** @var \MagicPill\Util\Log\Logger $logger */
         foreach($this->loggerList as $logger) {
             $logger->shutdown();
         }
@@ -158,21 +151,21 @@ class LogManager extends Object
     {
         $logger = $this->getDefaultLog();        
         if (null == $logger) {
-            ExceptionFactory::LogManagerNamespaceNotFoundException('Logger with name ' . $name . ' not found');
+            ExceptionFactory::LogManagerLoggerNotFoundException(sprintf('Logger with name %s not found', $name));
         }
-        call_user_func_array(array($logger, $name), $arguments);
+        return call_user_func_array([$logger, $name], $arguments);
     }
     
     /**
      * Magic method for property retrieval
      * @param string $name
-     * @return Log
+     * @return Logger
      */
     public function __get($name)
     {
         $log = $this->getLog($name);
         if (null == $log) {
-            ExceptionFactory::LogManagerLoggerNotFoundException('Logger with name ' . $name . ' not found');
+            ExceptionFactory::LogManagerLoggerNotFoundException(sprintf('Logger with name %s not found', $name));
         }
         return $log;
     }

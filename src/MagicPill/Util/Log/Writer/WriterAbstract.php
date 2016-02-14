@@ -2,7 +2,7 @@
 /**
  * MagicPill
  *
- * Copyright (c) 2014, Joao Pinheiro
+ * Copyright (c) 2014-2016, Joao Pinheiro
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,7 +30,7 @@
  * @category   MagicPill
  * @package    Log
  * @copyright  Copyright (c) 2014 Joao Pinheiro
- * @version    0.9
+ * @version    1.0
  */
 
 namespace MagicPill\Util\Log\Writer;
@@ -41,7 +41,7 @@ use MagicPill\Util\Log\LogLevel;
 use MagicPill\Util\Log\Formatter\FormatterInterface;
 use MagicPill\Exception\ExceptionFactory;
 
-abstract class WriterAbstract extends Object
+abstract class WriterAbstract extends Object implements WriterInterface
 {
     use Inherit;
 
@@ -53,10 +53,10 @@ abstract class WriterAbstract extends Object
     /**
      * @var array 
      */
-    protected $validLevels = array();
+    protected $validLevels = [];
     
     /**
-     * @var MagicPill\Util\Log\Formatter\FormatterInterface
+     * @var \MagicPill\Util\Log\Formatter\FormatterInterface
      */
     protected $formatter = null;
     
@@ -82,23 +82,13 @@ abstract class WriterAbstract extends Object
     
     /**
      * Perform writer configuration
-     * @param array|object $config
-     * @return MagicPill\Util\Log\Writer\WriterAbstract
+     * @param \Traversable $config
+     * @return $this
      * @throws LogWriterInvalidConfigurationFormatException
      * @throws LogWriterInvalidFormatterException
      */
-    public function configure($config = array())
+    public function configure(\Traversable $config = [])
     {
-        if (is_object($config)) {
-            if ($config instanceof \MagicPill\Util\Config\Container) {
-                $config = $config->toArray();
-            }
-        } 
-        
-        if (!is_array($config)) {
-            ExceptionFactory::LogWriterInvalidConfigurationFormatException('The configuration format is invalid');
-        }
-        
         foreach ($config as $key => $value) {
             switch($key) {
                 case 'logLevel':
@@ -108,13 +98,13 @@ abstract class WriterAbstract extends Object
                 case 'formatter':
                     $formatter = $this->buildFormatterObject($value);
                     if (null === $formatter) {
-                        ExceptionFactory::LogWriterInvalidFormatterException('Formatter Class ' . $value . ' not found');
+                        ExceptionFactory::LogWriterInvalidFormatterException(sprintf('Formatter Class %s not found', $value));
                     }
                     $this->setFormatter($formatter);
                     break;
                     
                 case 'formatterOptions':
-                    if (!is_array($value)) {
+                    if (!is_array($value) && !($value instanceof \Traversable)) {
                        ExceptionFactory::LogWriterInvalidConfigurationFormatException('The configuration format for the Formatter is invalid'); 
                     }
                     $this->getFormatter()->configure($value);
@@ -130,14 +120,14 @@ abstract class WriterAbstract extends Object
     /**
      * Defines the log level
      * @param integer $level
-     * @return \MagicPill\Util\Log\Writer\WriterAbstract
+     * @return $this
      * @throws LogWriterInvalidLogLevelException
      */
     public function setLogLevel($level)
     {
         $level = (int) $level;
         if (!in_array($level, $this->validLevels)) {
-            ExceptionFactory::LogWriterInvalidLogLevelException('Invalid log level ' . $level);
+            ExceptionFactory::LogWriterInvalidLogLevelException(sprintf('Invalid log level %s', $level));
         }
         $this->logLevel = $level;
         return $this;
@@ -146,7 +136,7 @@ abstract class WriterAbstract extends Object
     /**
      * Defines the formatter to use
      * @param \MagicPill\Util\Log\Formatter\FormatterInterface $formatter
-     * @return \MagicPill\Util\Log\Writer\WriterAbstract
+     * @return $this
      */
     public function setFormatter(FormatterInterface $formatter)
     {
@@ -169,7 +159,8 @@ abstract class WriterAbstract extends Object
     
     /**
      * Returns true if writer accepts this loglevel
-     * @param \MagicPill\Util\Log\Writer\MagicPill\Util\Log\LogMessage $message
+     * @param int $level
+     * @return bool
      */
     public function accept($level)
     {
@@ -208,10 +199,7 @@ abstract class WriterAbstract extends Object
      * @param mixed $value
      * @return \MagicPill\Util\Log\Writer\WriterAbstract
      */
-    protected function configureOptions($option, $value)
-    {
-        return $this;
-    }
+    abstract protected function configureOptions($option, $value);
 
     /**
      * Retrieves a formatter object based on the classname

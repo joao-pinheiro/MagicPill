@@ -21,18 +21,22 @@ Trait Options
      */
     public function setOption($key, $value)
     {
-        $this->getOptions()->add($key, $value);
+        $this->getOptionsDictionary()->add($key, $value);
         return $this;
     }
 
     /**
      * Retrieve an option by key
      * @param string $key
+     * @param mixed $key
      * @return mixed
      */
-    public function getOption($key)
+    public function getOption($key, $defaultValue = null)
     {
-        return $this->getOptions()->get($key);
+        if ($this->getOptionsDictionary()->containsKey($key)) {
+            return $this->getOptionsDictionary()->get($key);
+        }
+        return $defaultValue;
     }
 
     /**
@@ -42,7 +46,7 @@ Trait Options
      */
     public function removeOption($key)
     {
-        $this->getOptions()->remove($key);
+        $this->getOptionsDictionary()->remove($key);
         return $this;
     }
 
@@ -52,7 +56,7 @@ Trait Options
      */
     public function clearOptions()
     {
-        $this->getOptions()->clear();
+        $this->getOptionsDictionary()->clear();
         return $this;
     }
 
@@ -66,19 +70,24 @@ Trait Options
         if (!is_array($optionList) && !($optionList instanceof \Traversable)) {
             ExceptionFactory::OptionsTraitException('Invalid list type on method setOptions()');
         }
-        $options = $this->getOptions();
-        $options->clear();
-        foreach ($optionList as $key => $value) {
-            $options->add($key, $value);
-        }
+        $this->getOptionsDictionary()->fromArray($optionList);
         return $this;
+    }
+
+    /**
+     * Retrieve all options as an array
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->getOptionsDictionary()->toArray();
     }
 
     /**
      * Retrieve Options Dictionary
      * @return Dictionary
      */
-    public function getOptions()
+    public function getOptionsDictionary()
     {
         if (null == $this->optionsDictionary) {
             $this->optionsDictionary = new Dictionary();

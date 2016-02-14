@@ -47,7 +47,10 @@ class LogLevel
     const NOTICE    = 5;
     const INFO      = 6;
     const DEBUG     = 7;
-    
+
+    /**
+     * @var array
+     */
     protected static $logLevels = array(
         self::EMERGENCY => 'EMERGENCY',
         self::ALERT => 'ALERT',
@@ -68,7 +71,7 @@ class LogLevel
     static public function getLogLevelLabel($level)
     {
         if (!isset(static::$logLevels[$level])) {
-            ExceptionFactory::LogLevelInvalidException('Level ' . $level . ' is invalid');
+            ExceptionFactory::LogLevelInvalidException(sprintf('Level %s is invalid', $level));
         }
         return static::$logLevels[$level];
     }

@@ -8,7 +8,7 @@ Trait Inherit
      * parent object
      * @var object
      */
-    protected $parent = null;
+    protected $parentObject = null;
 
     /**
      * Retrieves the parent object
@@ -16,7 +16,7 @@ Trait Inherit
      */
     public function getParent()
     {
-        return $this->parent;
+        return $this->parentObject;
     }
 
     /**
@@ -26,7 +26,7 @@ Trait Inherit
      */
     public function setParent($parent = null)
     {
-        $this->parent = $parent;
+        $this->parentObject = $parent;
         return $this;
     }
 
@@ -38,7 +38,7 @@ Trait Inherit
     public function isChildOf($object)
     {
         if (is_object($object)) {
-            return $object === $this->parent;
+            return $object === $this->parentObject;
         }
         return false;
     }

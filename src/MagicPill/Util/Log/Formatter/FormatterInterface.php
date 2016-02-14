@@ -2,7 +2,7 @@
 /**
  * MagicPill
  *
- * Copyright (c) 2014, Joao Pinheiro
+ * Copyright (c) 2014-2016, Joao Pinheiro
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,10 +30,11 @@
  * @category   MagicPill
  * @package    Log
  * @copyright  Copyright (c) 2014 Joao Pinheiro
- * @version    0.9
+ * @version    1.0
  */
 
 namespace MagicPill\Util\Log\Formatter;
+
 
 interface FormatterInterface
 {
@@ -46,8 +47,15 @@ interface FormatterInterface
     
     /**
      * Configure the formatter
-     * @param array|object $config
+     * @param \Traversable $config
      * @throws LogFormatterInvalidConfigurationFormatException
      */
-    public function configure($config = array());
+    public function configure(\Traversable $config);
+
+    /**
+     * Define Formatter parent
+     * @param object|null $parent
+     * @return mixed
+     */
+    public function setParent($parent = null);
 }

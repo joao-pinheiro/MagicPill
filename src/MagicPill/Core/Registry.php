@@ -19,13 +19,17 @@ use MagicPill\Resource\Loader;
  * @method appendNamespace($namespace)
  * @method containsNamespace($namespace)
  * @method getNamespaceCollection()
- * @method findResource($resourceName)
  * @method resourceExists($resourceName)
  * @method loadResource($resourceName, $constructorOptions = null)
  */
 class Registry
 {
     use Singleton;
+
+    /**
+     * @var string
+     */
+    protected $resourceInterface = '\MagicPill\Core\Registry\ResourceInterface';
 
     /**
      * @var \MagicPill\Resource\Loader
@@ -133,9 +137,7 @@ class Registry
         }
 
         if ($this->resourceLoaderEnabled) {
-            $resource = $this->getResourceLoader()->findResource($name);
-            $this->data->add($name, $resource);
-            return $resource;
+            return $this->findResource($name);
         } else {
             ExceptionFactory::RegistryException(sprintf('Resource %s not found', $name));
         }
@@ -171,7 +173,25 @@ class Registry
     {
         if (null == $this->resourceLoader) {
             $this->resourceLoader = new Loader();
+            $this->resourceLoader->setInstanceOf($this->resourceInterface);
         }
         return $this->resourceLoader;
+    }
+
+    /**
+     * Finds and initializes a resource
+     * If the resource initialization returns a value, store it on the collection
+     * @param string $resourceName
+     * @return Object|null
+     */
+    protected function findResource($resourceName)
+    {
+        /** @var \MagicPill\Core\Registry\ResourceInterface $resource */
+        $resource = $this->getResourceLoader()->loadResource($resourceName);
+        $resource = call_user_func([$resource, 'init'], $this);
+        if (!empty($resource)) {
+            $this->data->add($resourceName, $resource);
+        }
+        return $resource;
     }
 }

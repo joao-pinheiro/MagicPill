@@ -92,7 +92,7 @@ class WriterStream extends WriterAbstract
     {
         if (null == $this->stream) {
             if (empty($this->streamName)) {
-                ExceptionFactory::LogWriterStreamInvalidNameException('Invalid name for stram log');
+                ExceptionFactory::LogWriterStreamInvalidNameException('Invalid name for stream log');
             }
             $this->stream = new FileWriter($this->streamName);
             $this->stream->open($this->streamMode);

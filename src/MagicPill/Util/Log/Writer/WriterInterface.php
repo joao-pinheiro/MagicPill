@@ -28,33 +28,61 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Application
+ * @package    Log
  * @copyright  Copyright (c) 2014-2016 Joao Pinheiro
  * @version    1.0
  */
 
-namespace MagicPill\Application\Resource;
+namespace MagicPill\Util\Log\Writer;
 
-use MagicPill\Application\Resources;
-use MagicPill\Core\Registry\ResourceInterface;
-use MagicPill\Exception\ExceptionFactory;
-use MagicPill\Util\Log\LogManager;
+use MagicPill\Util\Log\Formatter\FormatterInterface;
 
-class Log implements ResourceInterface
-{
+interface WriterInterface
     /**
-     * Retrieve configuration
-     * @param \MagicPill\Core\Registry $di
-     * @return \MagicPill\Util\Log\LogManager
+     * Perform writer configuration
+     * @param \Traversable $config
+     * @return $this
+     * @throws LogWriterInvalidConfigurationFormatException
+     * @throws LogWriterInvalidFormatterException
      */
-    public function init(\MagicPill\Core\Registry $di)
-    {
-        /** @var \MagicPill\Application\ApplicationAbstract $app */
-        $config = $di->get(Resources::CONFIG)->log;
-        if (!empty($config)) {
-            return new LogManager($config);
-        } else {
-            ExceptionFactory::ResourceLogException('Log configuration not found');
-        }
-    }
+    public function configure(\Traversable $config = []);
+
+    /**
+     * Defines the log level
+     * @param integer $level
+     * @return $this
+     * @throws LogWriterInvalidLogLevelException
+     */
+    public function setLogLevel($level);
+
+    /**
+     * Defines the formatter to use
+     * @param \MagicPill\Util\Log\Formatter\FormatterInterface $formatter
+     * @return $this
+     */
+    public function setFormatter(FormatterInterface $formatter);
+
+    /**
+     * Retrieves the available formatter or instantiates a default one if not available
+     * @return \MagicPill\Util\Log\Formatter\FormatterInterface
+     */
+    public function getFormatter();
+
+    /**
+     * Returns true if writer accepts this loglevel
+     * @param int $level
+     * @return bool
+     */
+    public function accept($level);
+
+    /**
+     * Prepares message for commit
+     * @param array $message
+     */
+    public function publish(array $message);
+
+    /**
+     * Writer shutdown function
+     */
+    public function shutdown();
 }

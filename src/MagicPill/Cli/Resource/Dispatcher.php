@@ -33,28 +33,14 @@
  * @version    1.0
  */
 
-namespace MagicPill\Application\Resource;
+namespace MagicPill\Cli\Resource;
 
-use MagicPill\Application\Resources;
 use MagicPill\Core\Registry\ResourceInterface;
-use MagicPill\Exception\ExceptionFactory;
-use MagicPill\Util\Log\LogManager;
 
-class Log implements ResourceInterface
+class Dispatcher implements ResourceInterface
 {
-    /**
-     * Retrieve configuration
-     * @param \MagicPill\Core\Registry $di
-     * @return \MagicPill\Util\Log\LogManager
-     */
+
     public function init(\MagicPill\Core\Registry $di)
     {
-        /** @var \MagicPill\Application\ApplicationAbstract $app */
-        $config = $di->get(Resources::CONFIG)->log;
-        if (!empty($config)) {
-            return new LogManager($config);
-        } else {
-            ExceptionFactory::ResourceLogException('Log configuration not found');
-        }
     }
 }

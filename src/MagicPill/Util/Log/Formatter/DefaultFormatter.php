@@ -2,7 +2,7 @@
 /**
  * MagicPill
  *
- * Copyright (c) 2014, Joao Pinheiro
+ * Copyright (c) 2014-2016, Joao Pinheiro
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -29,8 +29,8 @@
  *
  * @category   MagicPill
  * @package    Log
- * @copyright  Copyright (c) 2014 Joao Pinheiro
- * @version    0.9
+ * @copyright  Copyright (c) 2014-2016 Joao Pinheiro
+ * @version    1.0
  */
 
 namespace MagicPill\Util\Log\Formatter;
@@ -39,8 +39,14 @@ use MagicPill\Core\Object;
 
 class DefaultFormatter extends Object implements FormatterInterface
 {
+    /**
+     * @var string
+     */
     protected $dateFormat = \DateTime::ISO8601;
-    
+
+    /**
+     * @var string
+     */
     protected $messageString = "{timestamp} {label} ({level}): {message}\n";
 
     /**
@@ -67,20 +73,10 @@ class DefaultFormatter extends Object implements FormatterInterface
     
     /**
      * Configure the formatter
-     * @param array|object $config
+     * @param \Traversable $config
      */    
-    public function configure($config = array())
+    public function configure(\Traversable $config)
     {
-        if (is_object($config)) {
-            if ($config instanceof \MagicPill\Util\Config\Container) {
-                $config = $config->toArray();
-            }
-        } 
-        
-        if (!is_array($config)) {
-            ExceptionFactory::LogFormatterInvalidConfigurationFormatException('The configuration format is invalid');
-        }  
-        
         foreach($config as $key => $value) {
             switch($key) {
                 case 'dateFormat':
@@ -93,10 +89,17 @@ class DefaultFormatter extends Object implements FormatterInterface
     /**
      * Sets the date format
      * @param string $format
+     * @return $this
      */
     public function setDateFormat($format)
     {
         $this->dateFormat = $format;
+        return $this;
     }
-    
+
+    public function getDateFormat()
+    {
+        return $this->dateFormat;
+    }
+
 }

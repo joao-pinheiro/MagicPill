@@ -73,7 +73,7 @@ class Logger extends Object
     public function configure($config = array())
     {
         if (is_object($config)) {
-            if ($config instanceof \MagicPill\Util\Config\Container) {
+            if ($config instanceof \MagicPill\Collection\Container) {
                 $config = $config->toArray();
             }
         } 
