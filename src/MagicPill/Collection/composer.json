@@ -1,0 +1,29 @@
+﻿{
+  "name": "magicpill/collection",
+  "description": "Implementation of Container, Dictionary, List and HashTable",
+  "license": "BSD-2-Clause",
+  "keywords": [
+    "magicpill",
+    "collection",
+    "hashtable",
+    "dictionary",
+    "hashmap"
+  ],
+  "autoload": {
+    "psr-4": {
+      "MagicPill\\Collection\\": ""
+    }
+  },
+  "target-dir": "MagicPill/Collection",
+  "require": {
+    "php": ">=5.5"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev",
+      "dev-develop": "1.0-dev"
+    }
+  }
+}

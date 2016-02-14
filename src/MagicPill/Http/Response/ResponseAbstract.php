@@ -28,42 +28,18 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Resource
+ * @package    MVC
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
 
-namespace MagicPill\Util\Config;
+namespace MagicPill\MVC\Response;
 
+use MagicPill\Core\Object;
+use MagicPill\Collection\Dictionary;
 use MagicPill\Exception\ExceptionFactory;
 
-abstract class ConfigFileAbstract extends Container
-{    
-    /**
-     * Ini file constructor
-     * @param string $filename
-     * @param string $section
-     * @throws ConfigSectionException
-     */
-    public function __construct($filename, $section = null)
-    {
-        $data = $this->parseFile($filename);
-        if (isset($section)) {
-            if (!isset($data[$section])) {
-                ExceptionFactory::ConfigSectionException(sprintf('Section %s not found', $section));
-            }
-            $this->parse($data[$section]);
-        } else {
-            foreach($data as $subsection => $content) {
-                $this->parse($content);
-            }
-        }
-    }
+abstract class ResponseAbstract extends Object
+{ 
 
-    /**
-     * Parse Config File
-     * @param string $filename
-     * @return array
-     */
-    protected abstract function parseFile($filename);
 }

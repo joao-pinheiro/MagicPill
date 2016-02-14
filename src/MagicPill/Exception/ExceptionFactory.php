@@ -28,47 +28,50 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Core
+ * @package    Exception
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
 
-namespace MagicPill\Core;
+namespace MagicPill\Exception;
 
-abstract class Object
+class ExceptionFactory extends \MagicPill\Core\Object
 {
     /**
-     * parent object
-     * @var object
+     * @var string
      */
-    protected $parent = null;
+    protected static $token = '{CLASSNAME}';
 
     /**
-     * Retrieves the parent object
-     * @return object
+     * @var string
      */
-    public function getParent()
+    protected static $evalPayload = 'class {CLASSNAME} extends \MagicPill\Exception\CoreException {}';
+
+    /**
+     * Builds a new Exception
+     * @param string $className
+     * @param string $message
+     * @param integer $code
+     * @param \Exception $previous
+     * @param mixed $parameters
+     * @return \MagicPill\Exception\CoreException
+     */
+    public static function build($className, $message, $code = null, $previous = null, $parameters = null)
     {
-        return $this->parent;
+        if (!class_exists($className)) {
+            eval(str_replace(self::$token, $className, self::$evalPayload));
+        }
+        throw new $className($message, $code, $previous);
     }
 
     /**
-     * Defines the parent object
-     * @param object|null $parent
-     * @return \MagicPill\Resource\Resource
+     * Allows invoking syntax as ExceptionFactory::ExceptionName('Message')
+     * @param string $name
+     * @param string $arguments
+     * @return \MagicPill\Exception\CoreException
      */
-    public function setParent($parent = null)
+    public static function __callStatic($name, $arguments)
     {
-        $this->parent = $parent;
-        return $this;
-    }
-
-    /**
-     * Retrieves the unique object identifier
-     * @return string
-     */
-    public function getObjectIdentifier()
-    {
-        return spl_object_hash($this);
+        return self::build($name, array_shift($arguments), array_shift($arguments), array_shift($arguments));
     }
 }

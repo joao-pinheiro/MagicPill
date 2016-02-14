@@ -2,7 +2,7 @@
 /**
  * MagicPill
  *
- * Copyright (c) 2014, Joao Pinheiro
+ * Copyright (c) 2014-2016, Joao Pinheiro
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -28,30 +28,47 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Config
- * @copyright  Copyright (c) 2014 Joao Pinheiro
- * @version    0.9
+ * @package    Core
+ * @copyright  Copyright (c) 2014-2016 Joao Pinheiro
+ * @version    1.0
  */
 
-namespace MagicPill\Util\Config;
+namespace MagicPill\Core;
 
-use MagicPill\Exception\ExceptionFactory;
-
-class PhpFile extends ConfigFileAbstract
+abstract class Object
 {
     /**
-     * Reads the php file and returns an array
-     * @param string $filename
-     * @return array
-     * @throws ConfigPhpFileException
+     * parent object
+     * @var object
      */
-    protected function parseFile($filename)
+    protected $parent = null;
+
+    /**
+     * Retrieves the parent object
+     * @return object
+     */
+    public function getParent()
     {
-        try {
-            $data = require $filename;
-        } catch (Exception $e) {
-            ExceptionFactory::ConfigPhpFileException($e->getMessage);
-        }
-        return $data;
+        return $this->parent;
+    }
+
+    /**
+     * Defines the parent object
+     * @param object|null $parent
+     * @return \MagicPill\Resource\Resource
+     */
+    public function setParent($parent = null)
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    /**
+     * Retrieves the unique object identifier
+     * @return string
+     */
+    public function getObjectIdentifier()
+    {
+        return spl_object_hash($this);
     }
 }

@@ -190,7 +190,7 @@ class Manager extends Load
 
     /**
      * Retrieves the resource dictionary
-     * @return MagicPill\Collection\Dictionary
+     * @return \MagicPill\Collection\Dictionary
      */
     protected function getResourceDictionary()
     {

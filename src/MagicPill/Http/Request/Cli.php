@@ -28,48 +28,16 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  *
  * @category   MagicPill
- * @package    Exception
+ * @package    MVC
  * @copyright  Copyright (c) 2014 Joao Pinheiro
  * @version    0.9
  */
 
-namespace MagicPill\Exception;
+namespace MagicPill\MVC\Request;
 
-class ExceptionFactory extends \MagicPill\Core\Object
+use MagicPill\Core\Object;
+use MagicPill\Exception\ExceptionFactory;
+
+class Cli extends RequestAbstract
 {
-    /**
-     * @var string
-     */
-    protected static $token = '{CLASSNAME}';
-
-    /**
-     * @var string
-     */
-    protected static $evalPayload = 'class {CLASSNAME} extends \MagicPill\Exception\CoreException {}';
-
-    /**
-     * Builds a new Exception
-     * @param string $className
-     * @param string $message
-     * @param integer $code
-     * @param \Exception $previous
-     * @param mixed $parameters
-     * @return \MagicPill\Exception\CoreException
-     */
-    public static function build($className, $message, $code = null, $previous = null, $parameters = null)
-    {
-        eval(str_replace(self::$token, $className, self::$evalPayload));
-        throw new $className($message, $code, $previous);
-    }
-
-    /**
-     * Allows invoking syntax as ExceptionFactory::ExceptionName('Message')
-     * @param string $name
-     * @param string $arguments
-     * @return \MagicPill\Exception\CoreException
-     */
-    public static function __callStatic($name, $arguments)
-    {
-        return self::build($name, array_shift($arguments), array_shift($arguments), array_shift($arguments));
-    }
 }

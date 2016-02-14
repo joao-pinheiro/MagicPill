@@ -1,0 +1,28 @@
+{
+  "name": "magicpill/mixin",
+  "description": "MagicPill mixin collection",
+  "license": "BSD-2-Clause",
+  "keywords": [
+    "magicpill",
+    "mixin",
+    "traits",
+    "utils"
+  ],
+  "autoload": {
+    "psr-4": {
+      "MagicPill\\Mixin\\": ""
+    }
+  },
+  "target-dir": "MagicPill/Mixin",
+  "require": {
+    "php": ">=5.5"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev",
+      "dev-develop": "1.0-dev"
+    }
+  }
+}

@@ -1,23 +1,35 @@
 {
-    "name": "magicpill/magicpill",
-    "description": "PHP Meta Framework",
-    "type": "library",
-    "keywords": [
-        "framework"
-    ],
-    "license": "BSD-2-Clause",
-    "require": {
-        "php": ">=5.4.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~4.2"
-    },
-    "autoload": {
-        "psr-0": {
-            "MagicPill\\": "library/"
-        }
-    },
-    "replace": {
-        "magicpill/collection": "self.version"
+  "name": "magicpill/magicpill",
+  "description": "High Performance PHP Framework",
+  "type": "library",
+  "keywords": [
+    "framework"
+  ],
+  "license": "BSD-2-Clause",
+  "require": {
+    "php": ">=5.5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.2"
+  },
+  "autoload": {
+    "classmap": [
+      "src/",
+      "tests/"
+    ]
+  },
+  "replace": {
+    "magicpill/core": "self.version",
+    "magicpill/exception": "self.version",
+    "magicpill/collection": "self.version",
+    "magicpill/config": "self.version"
+  }
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev",
+      "dev-develop": "1.0-dev"
     }
+  }
 }
