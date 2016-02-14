@@ -38,6 +38,7 @@ namespace MagicPill\Util\Log\Writer;
 use MagicPill\Util\Log\Formatter\FormatterInterface;
 
 interface WriterInterface
+{
     /**
      * Perform writer configuration
      * @param \Traversable $config

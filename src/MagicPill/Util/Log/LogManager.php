@@ -139,7 +139,7 @@ class LogManager extends Object
         foreach($this->loggerList as $logger) {
             $logger->shutdown();
         }
-        $this->loggerList = array();
+        $this->loggerList = [];
     }
     
     /**
@@ -149,11 +149,12 @@ class LogManager extends Object
      */
     public function __call($name, $arguments)
     {
-        $logger = $this->getDefaultLog();        
-        if (null == $logger) {
-            ExceptionFactory::LogManagerLoggerNotFoundException(sprintf('Logger with name %s not found', $name));
+        foreach($this->loggerList as $logger) {
+            if (!method_exists($logger, $name)) {
+                ExceptionFactory::LogManagerLoggerNotFoundException(sprintf('Logger with name %s not found', $name));
+            }
+            call_user_func_array([$logger, $name], $arguments);
         }
-        return call_user_func_array([$logger, $name], $arguments);
     }
     
     /**

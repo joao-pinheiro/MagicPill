@@ -30,7 +30,7 @@ class Loader
      */
     public function __construct($namespaceList = [])
     {
-        if (!empty($namespaces)) {
+        if (!empty($namespaceList)) {
             $this->setNamespaces($namespaceList);
         }
     }

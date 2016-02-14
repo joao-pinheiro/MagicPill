@@ -2,7 +2,7 @@
 /**
  * MagicPill
  *
- * Copyright (c) 2014, Joao Pinheiro
+ * Copyright (c) 2014-2016, Joao Pinheiro
  * All rights reserved.
 
  * Redistribution and use in source and binary forms, with or without modification,
@@ -29,30 +29,46 @@
  *
  * @category   MagicPill
  * @package    Application
- * @copyright  Copyright (c) 2014 Joao Pinheiro
- * @version    0.9
+ * @copyright  Copyright (c) 2016 Joao Pinheiro
+ * @version    1.0
  */
 
 namespace MagicPill\Application\Resource;
 
-class PhpSettings extends ResourceAbstract
+use MagicPill\Application\Resources;
+use MagicPill\Core\Registry\ResourceInterface;
+
+class PhpSettings implements ResourceInterface
 {
     /**
-     * Registry initialization
-     * @param \MagicPill\Core\Object $application
-     * @return \MagicPill\Collection\Dictionary
+     * Retrieve configuration
+     * @param \MagicPill\Core\Registry $di
+     * @return null
      */
-    public function init(\MagicPill\Core\Object $application)
+    public function init(\MagicPill\Core\Registry $di)
     {
-        $this->setParent($application);
-        $config = $application->getConfig();
-        if ($config->phpSettings) {
-            foreach ($config->phpSettings->toArray() as $key => $value) {
-                if (is_scalar($value)) {
-                    ini_set($key, $value);
-                }
-            }
+        /** @var \MagicPill\Application\ApplicationAbstract $app */
+        $config = $di->get(Resources::CONFIG)->php;
+        if (!empty($config)) {
+            $this->applyPHPSettings($config);
         }
         return null;
+    }
+
+    /**
+     * Recusively applies php options
+     * @param \Traversable $settings
+     * @param string $prefix
+     */
+    protected function applyPHPSettings(\Traversable $settings, $prefix = '')
+    {
+        foreach ($settings as $key => $value) {
+            $key = empty($prefix) ? $key : $prefix . $key;
+            if (is_scalar($value)) {
+                ini_set($key, $value);
+            } elseif (is_array($value)) {
+                $this->applyPHPSettings($value, $key . '.');
+            }
+        }
     }
 }

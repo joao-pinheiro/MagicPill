@@ -65,23 +65,13 @@ class Logger extends Object
     
     /**
      * Configures the logger instance
-     * @param array|object $config
+     * @param  \Traversable $config
      * @throws LoggerInvalidConfigurationFormatException
      * @throws LoggerUnknownWriterException
      * @throws 
      */
-    public function configure($config = array())
+    public function configure(\Traversable $config)
     {
-        if (is_object($config)) {
-            if ($config instanceof \MagicPill\Collection\Container) {
-                $config = $config->toArray();
-            }
-        } 
-        
-        if (!is_array($config)) {
-            ExceptionFactory::LoggerInvalidConfigurationFormatException('The configuration format is invalid');
-        }
-        
         if (isset($config['writers'])) {
             foreach($config['writers'] as $writerConfig) {
                 if (is_array($writerConfig) && isset($writerConfig['writerName'])) {

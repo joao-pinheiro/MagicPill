@@ -15,4 +15,21 @@ return [
         ]
     ],
 
+    'handlers' => [
+        'namespaces' => [
+            '\MagicPill\Application\Handler'
+        ],
+        'errorHandler' => [
+            'enabled' => true
+        ],
+
+        'exceptionHandler' => [
+            'enabled' => true,
+            'throwExceptions' => true
+        ],
+
+        'shutdownHandler' => [
+            'enabled' => true
+        ]
+    ],
 ];

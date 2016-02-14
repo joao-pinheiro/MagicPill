@@ -5,24 +5,26 @@ namespace MagicPill\Application;
 use MagicPill\Core\Object;
 use MagicPill\Core\Registry;
 use MagicPill\Mixin\Options;
+use \MagicPill\Mixin\Registry as TraitRegistry;
 
 abstract class ApplicationAbstract extends Object
 {
-    use Options;
+    use Options, TraitRegistry;
 
     /**
-     * @var \MagicPill\Core\Registry
+     * Default application resource namespaces
+     * @var array
      */
-    protected $registry = null;
+    protected $resourceNamespaces = [
+        '\MagicPill\Application\Resource'
+    ];
 
     /**
      * Application configuration parameters
      * @var array
      */
     protected $options = [
-        'resourceNamespaces' => [
-            '\MagicPill\Application\Resource'
-        ],
+        'resourceNamespaces' => [],
         'environment' => 'production',
         'configFile' => []
     ];
@@ -40,18 +42,24 @@ abstract class ApplicationAbstract extends Object
 
     /**
      * Retrieve current environment
+     * @param string $defaultEnv
      * @return string
      */
-    public function getEnvironment()
+    public function getEnvironment($defaultEnv = 'production')
     {
-        return $this->getOption('environment', 'production');
+        return $this->getOption('environment', $defaultEnv);
     }
 
     /**
      * Bootstraps the application
      * @return void
      */
-    abstract public function start();
+    public function start()
+    {
+        $registry = $this->getRegistry();
+        $registry->getPhpSettings();
+        $registry->getHandlers();
+    }
 
     /**
      * Executes the application
@@ -60,24 +68,13 @@ abstract class ApplicationAbstract extends Object
     abstract public function run();
 
     /**
-     * Retrieve application registry
-     * @return \MagicPill\Core\Registry
-     */
-    public function getRegistry()
-    {
-        if (null == $this->registry) {
-            $this->registry = Registry::getInstance();
-        }
-        return $this->registry;
-    }
-
-    /**
      * Configure Resource Loader
      */
     protected function configureResources()
     {
         $registry = $this->getRegistry();
-        $registry->setNamespaces($this->getOption('resourceNamespaces', []));
+        $namespaces = array_merge($this->getOption('resourceNamespaces', []), $this->resourceNamespaces);
+        $registry->setNamespaces($namespaces);
     }
 
     /**
