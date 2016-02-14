@@ -23,7 +23,7 @@
     "magicpill/exception": "self.version",
     "magicpill/collection": "self.version",
     "magicpill/config": "self.version"
-  }
+  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "extra": {
