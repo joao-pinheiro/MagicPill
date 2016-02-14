@@ -9,7 +9,7 @@ define('APPLICATION_ENV', 'testing');
 require_once APPLICATION_PATH . '/vendor/autoload.php';
 
 set_include_path(
-    realpath(APPLICATION_PATH . '/library/')
+    realpath(APPLICATION_PATH . '/src/')
     . PATH_SEPARATOR
     . get_include_path()
 );

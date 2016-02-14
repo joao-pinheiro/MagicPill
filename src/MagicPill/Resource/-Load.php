@@ -37,9 +37,12 @@ namespace MagicPill\Resource;
 
 use MagicPill\Collection;
 use MagicPill\Exception\ExceptionFactory;
+use MagicPill\Mixin\Inherit;
 
 class Load extends \MagicPill\Core\Object
 {
+    use Inherit;
+
    /**
      * Base class name to check inheritance
      * @var string

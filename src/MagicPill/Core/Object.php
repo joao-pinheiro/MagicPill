@@ -38,32 +38,6 @@ namespace MagicPill\Core;
 abstract class Object
 {
     /**
-     * parent object
-     * @var object
-     */
-    protected $parent = null;
-
-    /**
-     * Retrieves the parent object
-     * @return object
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
-     * Defines the parent object
-     * @param object|null $parent
-     * @return \MagicPill\Resource\Resource
-     */
-    public function setParent($parent = null)
-    {
-        $this->parent = $parent;
-        return $this;
-    }
-
-    /**
      * Retrieves the unique object identifier
      * @return string
      */

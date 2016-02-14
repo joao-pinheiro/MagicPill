@@ -73,10 +73,10 @@ class Collection implements ListInterface
 
     /**
      * Appends collection from array
-     * @param array $array
+     * @param \Traversable|array $array
      * @return $this
      */
-    public function fromArray(array $array)
+    public function fromArray($array)
     {
         foreach($array as $value) {
             $this->add($value);
@@ -107,6 +107,7 @@ class Collection implements ListInterface
         $this->data = array();
         $this->count = 0;
         $this->readOnly = false;
+        $this->cursor = -1;
         return $this;
     }
 

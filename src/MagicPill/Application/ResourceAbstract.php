@@ -35,8 +35,12 @@
 
 namespace MagicPill\Application\Resource;
 
+use MagicPill\Mixin\Inherit;
+
 abstract class ResourceAbstract extends \MagicPill\Core\Object implements ResourceInterface
 {
+    use Inherit;
+
     public function init(\MagicPill\Core\Object $application)
     {
     }

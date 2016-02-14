@@ -1,23 +1,19 @@
 {
-  "name": "magicpill/mixin",
-  "description": "MagicPill mixin collection",
+  "name": "magicpill/resource",
+  "description": "MagicPill resource loader",
   "license": "BSD-2-Clause",
   "keywords": [
     "magicpill",
-    "mixin",
-    "traits",
-    "utils"
+    "resource"
   ],
   "autoload": {
     "psr-4": {
       "MagicPill\\Mixin\\": ""
     }
   },
-  "target-dir": "MagicPill/Mixin",
+  "target-dir": "MagicPill/Resource",
   "require": {
-    "php": ">=5.5",
-    "magicpill/collection": "*",
-    "magicpill/exception": "*"
+    "php": ">=5.5"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,

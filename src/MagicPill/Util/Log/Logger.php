@@ -38,9 +38,12 @@ namespace MagicPill\Util\Log;
 use MagicPill\Core\Object;
 use MagicPill\Collection\ObjectCollection;
 use MagicPill\Exception\ExceptionFactory;
+use MagicPill\Mixin\Inherit;
 
 class Logger extends Object
 {
+    use Inherit;
+
     /**
      * @var array
      */

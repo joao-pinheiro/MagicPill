@@ -4,9 +4,12 @@ namespace MagicPill\Mvc\View\Helper;
 
 use \MagicPill\Core\Object,
     \MagicPill\Mvc\ViewModel;
+use MagicPill\Mixin\Inherit;
 
 abstract class HelperAbstract extends Object
 {
+    use Inherit;
+
     /**
      * @var \MagicPill\Mvc\ViewModel
      */

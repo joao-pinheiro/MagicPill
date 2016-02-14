@@ -35,12 +35,13 @@
 
 namespace MagicPill\Application\Resource;
 
-use MagicPill\Util\Config\IniFile;
-use MagicPill\Util\Config\PhpFile;
 use MagicPill\Exception\ExceptionFactory;
+use MagicPill\Mixin\Inherit;
 
 class Config extends ResourceAbstract
 {
+    use Inherit;
+
     /**
      * @var string
      */

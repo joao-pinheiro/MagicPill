@@ -37,9 +37,12 @@ namespace MagicPill\Resource;
 
 use MagicPill\Collection;
 use MagicPill\Exception\ExceptionFactory;
+use MagicPill\Mixin\Inherit;
 
 class Manager extends Load
 {
+    use Inherit;
+
      /**
      * Resource dictionary
      * @var MagicPill\Collection\Dictionary

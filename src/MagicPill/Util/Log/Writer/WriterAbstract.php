@@ -36,12 +36,15 @@
 namespace MagicPill\Util\Log\Writer;
 
 use MagicPill\Core\Object;
+use MagicPill\Mixin\Inherit;
 use MagicPill\Util\Log\LogLevel;
 use MagicPill\Util\Log\Formatter\FormatterInterface;
 use MagicPill\Exception\ExceptionFactory;
 
 abstract class WriterAbstract extends Object
 {
+    use Inherit;
+
     /**
      * @var integer 
      */
