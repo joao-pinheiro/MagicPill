@@ -42,7 +42,7 @@ use MagicPill\Config\Inline;
 use MagicPill\Config\Json;
 use MagicPill\Config\Php;
 use MagicPill\Exception\ExceptionFactory;
-use MagicPill\Core\Registry\ResourceInterface;
+use MagicPill\Core\Container\ResourceInterface;
 
 class Config implements ResourceInterface
 {
@@ -50,10 +50,10 @@ class Config implements ResourceInterface
 
     /**
      * Retrieve configuration
-     * @param \MagicPill\Core\Registry $di
+     * @param \MagicPill\Core\Container $di
      * @return \MagicPill\Collection\Container
      */
-    public function init(\MagicPill\Core\Registry $di)
+    public function init(\MagicPill\Core\Container $di)
     {
         /** @var \MagicPill\Application\ApplicationAbstract $app */
         $app = $di->get(Resources::APPLICATION);

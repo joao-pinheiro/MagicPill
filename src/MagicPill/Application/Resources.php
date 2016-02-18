@@ -5,7 +5,7 @@ namespace MagicPill\Application;
 class Resources {
 
     /**
-     * Application Registry Resources
+     * Application DI Resources
      */
     const APPLICATION = 'Application';
     const CONFIG = 'Config';

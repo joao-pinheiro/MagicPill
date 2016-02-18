@@ -36,16 +36,16 @@
 namespace MagicPill\Application\Resource;
 
 use MagicPill\Application\Resources;
-use MagicPill\Core\Registry\ResourceInterface;
+use MagicPill\Core\Container\ResourceInterface;
 
 class PhpSettings implements ResourceInterface
 {
     /**
      * Retrieve configuration
-     * @param \MagicPill\Core\Registry $di
+     * @param \MagicPill\Core\Container $di
      * @return null
      */
-    public function init(\MagicPill\Core\Registry $di)
+    public function init(\MagicPill\Core\Container $di)
     {
         /** @var \MagicPill\Application\ApplicationAbstract $app */
         $config = $di->get(Resources::CONFIG)->php;

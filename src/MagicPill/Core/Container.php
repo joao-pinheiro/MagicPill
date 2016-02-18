@@ -2,13 +2,16 @@
 
 namespace MagicPill\Core;
 
+use Interop\Container\ContainerInterface;
 use MagicPill\Collection\Dictionary;
+use MagicPill\Core\Container\ContainerException;
+use MagicPill\Core\Container\NotFoundException;
 use MagicPill\Exception\ExceptionFactory;
 use MagicPill\Mixin\Singleton;
 use MagicPill\Resource\Loader;
 
 /**
- * Class Registry
+ * Class Container
  * @package MagicPill\Core
  *
  * @method setInstanceOf($className)
@@ -22,7 +25,7 @@ use MagicPill\Resource\Loader;
  * @method resourceExists($resourceName)
  * @method loadResource($resourceName, $constructorOptions = null)
  */
-class Registry
+class Container implements ContainerInterface
 {
     use Singleton;
 
@@ -75,7 +78,7 @@ class Registry
     }
 
     /**
-     * Adds an entry to the local registry
+     * Adds an entry to the local Container DI
      * @param string $name
      * @param mixed $value
      * @return $this
@@ -83,7 +86,7 @@ class Registry
     public function set($name, $value)
     {
         if ($this->data->containsKey($name)) {
-            ExceptionFactory::RegistryException(sprintf('Duplicate entry for identifier %s', $name));
+            ExceptionFactory::ContainerException(sprintf('Duplicate entry for identifier %s', $name));
         }
         $this->data->add($name, $value);
         return $this;
@@ -101,11 +104,11 @@ class Registry
     }
 
     /**
-     * Returns true if $name exists in the registry
+     * Returns true if $name exists in the Container DI
      * @param string $name
      * @return bool
      */
-    public function contains($name)
+    public function has($name)
     {
         return $this->data->containsKey($name);
     }
@@ -117,7 +120,16 @@ class Registry
      */
     public function get($name)
     {
-        return $this->__get($name);
+        try {
+            $result = $this->__get($name);
+        } catch (\Exception $e) {
+            throw new ContainerException($e->getMessage());
+        }
+
+        if (empty($result)) {
+            throw new NotFoundException(sprintf('Container id %s not found', $name));
+        }
+        return $result;
     }
 
     /**
@@ -139,7 +151,7 @@ class Registry
         if ($this->resourceLoaderEnabled) {
             return $this->findResource($name);
         } else {
-            ExceptionFactory::RegistryException(sprintf('Resource %s not found', $name));
+            ExceptionFactory::ContainerException(sprintf('Resource %s not found', $name));
         }
         return null;
     }
@@ -161,7 +173,7 @@ class Registry
         if (method_exists($loader, $name)) {
             return call_user_func_array([$loader, $name], $arguments);
         }
-        ExceptionFactory::RegistryException(sprintf('Invalid method name %s', $name));
+        ExceptionFactory::ContainerException(sprintf('Invalid method name %s', $name));
         return null;
     }
 
@@ -186,7 +198,7 @@ class Registry
      */
     protected function findResource($resourceName)
     {
-        /** @var \MagicPill\Core\Registry\ResourceInterface $resource */
+        /** @var \MagicPill\Core\Container\ResourceInterface $resource */
         $resource = $this->getResourceLoader()->loadResource($resourceName);
         $resource = call_user_func([$resource, 'init'], $this);
         if (!empty($resource)) {

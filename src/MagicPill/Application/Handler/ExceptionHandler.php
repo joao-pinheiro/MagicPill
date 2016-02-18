@@ -4,12 +4,12 @@ namespace MagicPill\Application\Handler;
 
 use MagicPill\Application\Resources;
 use MagicPill\Collection\Collection;
-use MagicPill\Mixin\Registry;
+use MagicPill\Mixin\DI;
 use MagicPill\Util\Log\LogLevel;
 
 class ExceptionHandler implements ExceptionInterface
 {
-    use Registry;
+    use DI;
 
     /**
      * @var \MagicPill\Collection\Collection
@@ -45,8 +45,8 @@ class ExceptionHandler implements ExceptionInterface
             ['Uncaught', get_class($ex), 'Exception:', $ex->getMessage(), PHP_EOL, $ex->getTraceAsString()]
         );
         $this->getMessages()->add($message);
-        if ($this->getRegistry()->resourceExists(Resources::LOG)) {
-            $this->getRegistry(Resources::LOG)->log(LogLevel::EMERGENCY, $message);
+        if ($this->getDi()->resourceExists(Resources::LOG)) {
+            $this->getDi(Resources::LOG)->log(LogLevel::EMERGENCY, $message);
         }
 
         if ($this->throwExceptions) {

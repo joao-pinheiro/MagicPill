@@ -35,12 +35,12 @@
 
 namespace MagicPill\Cli\Resource;
 
-use MagicPill\Core\Registry\ResourceInterface;
+use MagicPill\Core\Container\ResourceInterface;
 
 class Dispatcher implements ResourceInterface
 {
 
-    public function init(\MagicPill\Core\Registry $di)
+    public function init(\MagicPill\Core\Container $di)
     {
     }
 }

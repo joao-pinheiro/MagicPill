@@ -3,13 +3,13 @@
 namespace MagicPill\Application;
 
 use MagicPill\Core\Object;
-use MagicPill\Core\Registry;
+use MagicPill\Core\Container;
+use MagicPill\Mixin\DI;
 use MagicPill\Mixin\Options;
-use \MagicPill\Mixin\Registry as TraitRegistry;
 
 abstract class ApplicationAbstract extends Object
 {
-    use Options, TraitRegistry;
+    use Options, DI;
 
     /**
      * Default application resource namespaces
@@ -56,7 +56,7 @@ abstract class ApplicationAbstract extends Object
      */
     public function start()
     {
-        $registry = $this->getRegistry();
+        $registry = $this->getDi();
         $registry->getPhpSettings();
         $registry->getHandlers();
     }
@@ -72,7 +72,7 @@ abstract class ApplicationAbstract extends Object
      */
     protected function configureResources()
     {
-        $registry = $this->getRegistry();
+        $registry = $this->getDi();
         $namespaces = array_merge($this->getOption('resourceNamespaces', []), $this->resourceNamespaces);
         $registry->setNamespaces($namespaces);
     }
@@ -82,8 +82,8 @@ abstract class ApplicationAbstract extends Object
      */
     protected function registerApplication()
     {
-        if (!$this->getRegistry()->contains(Resources::APPLICATION)) {
-            $this->getRegistry()->set(Resources::APPLICATION, $this);
+        if (!$this->getDi()->has(Resources::APPLICATION)) {
+            $this->getDi()->set(Resources::APPLICATION, $this);
         }
     }
 }

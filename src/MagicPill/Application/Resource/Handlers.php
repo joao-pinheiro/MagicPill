@@ -36,7 +36,7 @@
 namespace MagicPill\Application\Resource;
 
 use MagicPill\Application\Resources;
-use MagicPill\Core\Registry\ResourceInterface;
+use MagicPill\Core\Container\ResourceInterface;
 use MagicPill\Exception\ExceptionFactory;
 use MagicPill\Resource\Loader;
 
@@ -77,10 +77,10 @@ class Handlers implements ResourceInterface
 
     /**
      * Initialize application handlers
-     * @param \MagicPill\Core\Registry $di
+     * @param \MagicPill\Core\Container $di
      * @return $this
      */
-    public function init(\MagicPill\Core\Registry $di)
+    public function init(\MagicPill\Core\Container $di)
     {
         $config = $di->getConfig()->handlers;
         if (!empty($config)) {
@@ -130,10 +130,10 @@ class Handlers implements ResourceInterface
 
     /**
      * Registers error handler
-     * @param \MagicPill\Core\Registry $di
+     * @param \MagicPill\Core\Container $di
      * @param \Traversable $config
      */
-    protected function initErrorHandler(\MagicPill\Core\Registry $di, \Traversable $config)
+    protected function initErrorHandler(\MagicPill\Core\Container $di, \Traversable $config)
     {
         $this->errorHandler = $this->handlerLoader->loadResource(ucfirst(self::ERROR_HANDLER));
         $this->errorHandler->config($config);
@@ -143,10 +143,10 @@ class Handlers implements ResourceInterface
 
     /**
      * Registers exception handler
-     * @param \MagicPill\Core\Registry $di
+     * @param \MagicPill\Core\Container $di
      * @param \Traversable $config
      */
-    protected function initExceptionHandler(\MagicPill\Core\Registry $di, \Traversable $config)
+    protected function initExceptionHandler(\MagicPill\Core\Container $di, \Traversable $config)
     {
         $this->exceptionHandler = $this->handlerLoader->loadResource(ucfirst(self::EXCEPTION_HANDLER));
         $this->exceptionHandler->config($config);
@@ -156,10 +156,10 @@ class Handlers implements ResourceInterface
 
     /**
      * Registers shutdown handler
-     * @param \MagicPill\Core\Registry $di
+     * @param \MagicPill\Core\Container $di
      * @param \Traversable $config
      */
-    protected function initShutdownHandler(\MagicPill\Core\Registry $di, \Traversable $config)
+    protected function initShutdownHandler(\MagicPill\Core\Container $di, \Traversable $config)
     {
         $this->shutdownHandler = $this->handlerLoader->loadResource(ucfirst(self::SHUTDOWN_HANDLER));
         $this->shutdownHandler->config($config);

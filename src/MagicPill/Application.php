@@ -211,7 +211,7 @@ class Application extends \MagicPill\Core\Object
 
     /**
      * Retrieves a resource using get<Name>/run<Name> syntax
-     * If get<Name> syntax is used, the resource result is stored in the resource registry
+     * If get<Name> syntax is used, the resource result is stored in the container registry
      * If run<Name> syntax is used, the resource executed without being stored
      * @param string $name
      * @return mixed

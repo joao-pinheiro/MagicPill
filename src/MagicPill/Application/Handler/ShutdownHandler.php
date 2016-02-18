@@ -3,11 +3,11 @@
 namespace MagicPill\Application\Handler;
 
 use MagicPill\Application\Resources;
-use MagicPill\Mixin\Registry;
+use MagicPill\Mixin\DI;
 
 class ShutdownHandler implements ShutdownInterface
 {
-    use Registry;
+    use DI;
 
     /**
      * Configures the shutdown handler
@@ -23,8 +23,8 @@ class ShutdownHandler implements ShutdownInterface
      */
     public function shutdownHandler()
     {
-        $registry = $this->getRegistry();
-        if ($this->getRegistry()->resourceExists(Resources::LOG)) {
+        $registry = $this->getDi();
+        if ($this->getDi()->resourceExists(Resources::LOG)) {
             $error = error_get_last();
             if ($error) {
                 $message = implode(' ', [$error['message'], 'in', $error['file'], 'Line', $error['line']]);
